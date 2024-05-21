@@ -1,8 +1,9 @@
 "use client";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
+import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
 import { albums } from "./lists";
@@ -18,11 +19,21 @@ export default function Home() {
     selectedCategory === "All"
       ? albums
       : albums.filter((image) => image.type === selectedCategory.toLowerCase());
-  useEffect(() => {
-    console.log("isSidebarOpen: ", isSidebarOpen);
-  }, [isSidebarOpen]);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
+      <Head>
+        <title>Photo Gallery</title>
+        <meta
+          name="description"
+          content="A collection of beautiful photos categorized for easy browsing."
+        />
+        <meta
+          name="keywords"
+          content="photo gallery, images, categories, photography"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       <div
         className={`sidebar-container ${
           isSidebarOpen ? "open" : "closed"
@@ -31,7 +42,7 @@ export default function Home() {
         <div className="flex items-center">
           <Image
             src="/logo.svg"
-            alt="logo"
+            alt="Site logo"
             width={200}
             height={100}
             className="block lg:hidden"
@@ -43,6 +54,7 @@ export default function Home() {
             toggle={toggleSidebar}
             size={20}
             direction="right"
+            label="Toggle sidebar"
           />
         </div>
         <MainSidebar

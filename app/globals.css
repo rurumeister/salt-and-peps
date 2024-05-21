@@ -24,25 +24,10 @@ body {
 p {
   font-weight: 300;
 }
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-}
-@layer base {
-  @font-face {
-    font-family: "MonsieurLaDoulaise";
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("/public/font/MonsieurLaDoulaise-Regular.ttf") format("ttf");
-  }
-  @font-face {
-    font-family: "PinyonScriptRegular";
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-    src: url("/public/font/PinyonScript-Regular.ttf") format("ttf");
   }
 }
 
@@ -81,6 +66,14 @@ p {
 
 .mobile-menu-icon {
   display: none;
+}
+
+.about-button {
+  text-align: left;
+}
+
+.contact-button {
+  text-align: left;
 }
 
 @media (max-width: 1024px) {

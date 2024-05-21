@@ -24,16 +24,16 @@ export const MainSidebar = ({
       <div>
         <Image
           src="/logo.svg"
-          alt="logo"
+          alt="Site logo"
           width={300}
           height={100}
           className="hidden lg:block"
         />
-        <div className="lg:ml-14">
+        <div className="lg:ml-14 ">
           {filter.map((category, index) => (
-            <p
+            <button
               key={index}
-              className={`default-hover w-40 ${
+              className={`default-hover w-40 text-left ${
                 selectedCategory === category && "font-bold"
               }`}
               onClick={() => {
@@ -43,17 +43,21 @@ export const MainSidebar = ({
               }}
             >
               {category}
-            </p>
+            </button>
           ))}
         </div>
       </div>
-      <div className="lg:ml-14 pb-8">
-        <Link href="about">
-          <p>About</p>
-        </Link>
-        <Link href="contact">
-          <p>Contact</p>
-        </Link>
+      <div className="lg:ml-14 pb-8 flex flex-col">
+        <button className="about-button default-hover">
+          <Link href="about">
+            <p>About</p>
+          </Link>
+        </button>
+        <button className="contact-button default-hover">
+          <Link href="contact">
+            <p>Contact</p>
+          </Link>
+        </button>
       </div>
     </div>
   );
@@ -75,7 +79,7 @@ export const OnlyAllSidebar = ({
       <div>
         <Image
           src="/logo.svg"
-          alt="logo"
+          alt="Site logo"
           width={300}
           height={100}
           className="hidden lg:block"
@@ -100,15 +104,21 @@ export const OnlyAllSidebar = ({
           ))}
         </div>
       </div>
-      <div className="ml-14 pb-8">
-        <Link href="about">
-          <p className={`${currentPage === "/about" && "font-bold"} `}>About</p>
-        </Link>
-        <Link href="contact">
-          <p className={`${currentPage === "/contact" && "font-bold"}`}>
-            Contact
-          </p>
-        </Link>
+      <div className="ml-14 pb-8 flex flex-col">
+        <button className="about-button default-hover">
+          <Link href="about">
+            <p className={`${currentPage === "/about" && "font-bold"} `}>
+              About
+            </p>
+          </Link>
+        </button>{" "}
+        <button className="contact-button default-hover">
+          <Link href="contact">
+            <p className={`${currentPage === "/contact" && "font-bold"}`}>
+              Contact
+            </p>
+          </Link>
+        </button>
       </div>
     </div>
   );
