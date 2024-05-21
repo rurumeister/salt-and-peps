@@ -1,0 +1,221 @@
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { AlbumType } from "../interfaces/album";
+
+export const HomeMasonry = ({
+  filteredImages,
+}: {
+  filteredImages: AlbumType[];
+}) => {
+  const [loadedImages, setLoadedImages] = useState<number[]>([]);
+
+  useEffect(() => {
+    setLoadedImages([]);
+  }, [filteredImages]);
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages((prev) => [...prev, index]);
+  };
+
+  return (
+    <div className="lg:pl-5 w-full min-h-screen">
+      <div className="masonry-grid">
+        {filteredImages.length > 0 ? (
+          filteredImages.map((img, index) => (
+            <div
+              key={index}
+              className={`relative masonry-item group ${
+                loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+              }`}
+            >
+              <Image
+                src={`/test-images/${img.images[0]}`}
+                alt={img.title}
+                layout="responsive"
+                width={250}
+                height={250}
+                style={{ objectFit: "cover" }}
+                onLoadingComplete={() => handleImageLoad(index)}
+              />
+              <Link
+                href={`album/${img.title.toLowerCase().replace(/ /g, "-")}`}
+              >
+                <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-sm cursor-pointer underline">
+                    {img.type}
+                  </p>
+                  <p className="text-white text-lg cursor-pointer">
+                    {img.title}
+                  </p>
+                  <p className="text-white text-xs cursor-pointer default-hover">
+                    View more
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p>No images found. Stay tuned!</p>
+        )}
+        {filteredImages.length > 0 ? (
+          filteredImages.map((img, index) => (
+            <div
+              key={index}
+              className={`relative masonry-item group ${
+                loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+              }`}
+            >
+              <Image
+                src={`/test-images/${img.images[0]}`}
+                alt={img.title}
+                layout="responsive"
+                width={250}
+                height={250}
+                style={{ objectFit: "cover" }}
+                onLoadingComplete={() => handleImageLoad(index)}
+              />
+              <Link
+                href={`album/${img.title.toLowerCase().replace(/ /g, "-")}`}
+              >
+                <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-white text-sm cursor-pointer underline">
+                    {img.type}
+                  </p>
+                  <p className="text-white text-lg cursor-pointer">
+                    {img.title}
+                  </p>
+                  <p className="text-white text-xs cursor-pointer default-hover">
+                    View more
+                  </p>
+                </div>
+              </Link>
+            </div>
+          ))
+        ) : (
+          <p>No images found. Stay tuned!</p>
+        )}
+      </div>
+      <style jsx>{`
+        .masonry-grid {
+          ${filteredImages.length < 5 ? "column-count: 2;" : "column-count: 4;"}
+          column-gap: 0.5em;
+        }
+
+        .opacity-in {
+          opacity: 1;
+          transition: opacity 0.5s ease-in-out;
+        }
+
+        .opacity-out {
+          opacity: 0;
+        }
+
+        @media (max-width: 1280px) {
+          .masonry-grid {
+            column-count: 3;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .masonry-grid {
+            column-count: 2;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .masonry-grid {
+            column-count: 1;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export const SlugMasonry = ({ album }: { album: AlbumType }) => {
+  const [loadedImages, setLoadedImages] = useState<number[]>([]);
+
+  useEffect(() => {
+    setLoadedImages([]);
+  }, [album.images]);
+
+  const handleImageLoad = (index: number) => {
+    setLoadedImages((prev) => [...prev, index]);
+  };
+
+  return (
+    <div className="min-h-screen w-full relative">
+      <div className="relative w-full h-screen ml-5">
+        <Image
+          src={`/test-images/${album.images[0]}`}
+          alt={album.title}
+          layout="fill"
+          objectFit="cover"
+          className={`absolute inset-0 ${
+            loadedImages.includes(0) ? "opacity-in" : "opacity-out"
+          }`}
+          onLoadingComplete={() => handleImageLoad(0)}
+        />
+        <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
+          <p className=" font-bold text-white">{album.title}</p>
+        </div>
+      </div>
+      {/* Masonry layout for the remaining images */}
+      <div className="pl-5 pt-2 masonry-grid">
+        {album.images.slice(1).map((img, index) => (
+          <div
+            key={index + 1}
+            className={`relative masonry-item group ${
+              loadedImages.includes(index + 1) ? "opacity-in" : "opacity-out"
+            }`}
+          >
+            <Image
+              src={`/test-images/${img}`}
+              alt={album.title}
+              layout="responsive"
+              width={250}
+              height={250}
+              style={{ objectFit: "cover" }}
+              onLoadingComplete={() => handleImageLoad(index + 1)}
+            />
+          </div>
+        ))}
+      </div>
+      <style jsx>{`
+        .masonry-grid {
+          column-count: 2;
+          column-gap: 0.5em;
+        }
+
+        .opacity-in {
+          opacity: 1;
+          transition: opacity 0.5s ease-in-out;
+        }
+
+        .opacity-out {
+          opacity: 0;
+        }
+
+        .masonry-item {
+          break-inside: avoid;
+          margin-bottom: 0.5em;
+          position: relative;
+        }
+
+        @media (max-width: 1024px) {
+          .masonry-grid {
+            column-count: 2;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .masonry-grid {
+            column-count: 1;
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
