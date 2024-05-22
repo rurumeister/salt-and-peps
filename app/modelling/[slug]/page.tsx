@@ -7,7 +7,7 @@ import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { OnlyAllSidebar } from "../../components/Sidebars";
-import { AlbumType } from "../../interfaces/album";
+import { PhotoAlbum } from "../../interfaces/album";
 import { modellingAlbums } from "../../lists";
 const Footer = dynamic(() => import("../../components/Footer"));
 
@@ -20,7 +20,7 @@ export default function Home() {
   const slug = url.split("/").pop();
   const album = modellingAlbums.find(
     (album) => album.title.toLowerCase().replace(/ /g, "-") === slug
-  ) as AlbumType;
+  ) as PhotoAlbum;
 
   return (
     <>

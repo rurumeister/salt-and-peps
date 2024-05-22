@@ -1,6 +1,12 @@
-export type AlbumType = {
+export interface ImageItem {
+  url: string;
+  title: string;
+  description: string;
+}
+
+export interface PhotoAlbum {
   title: string;
   type: string;
-  setToShow: boolean;
-  images: string[];
-};
+  images: ImageItem[];
+  highlight: boolean;
+}

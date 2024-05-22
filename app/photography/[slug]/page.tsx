@@ -1,26 +1,94 @@
 "use client";
 import { SlugMasonry } from "@/app/components/Masonry";
+import { GraphQLClient, gql } from "graphql-request";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OnlyAllSidebar } from "../../components/Sidebars";
-import { AlbumType } from "../../interfaces/album";
-import { photographyAlbums } from "../../lists";
+import { PhotoAlbum } from "../../interfaces/album";
 const Footer = dynamic(() => import("../../components/Footer"));
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [album, setAlbum] = useState<PhotoAlbum | null>(null);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const url = `${pathname}${searchParams}`;
   const slug = url.split("/").pop();
-  const album = photographyAlbums.find(
-    (album) => album.title.toLowerCase().replace(/ /g, "-") === slug
-  ) as AlbumType;
+  const transformSlugToTitle = (slug: string) => {
+    return slug
+      .split("-")
+      .map((word) => word.replace(/^./, (match) => match.toUpperCase()))
+      .join(" ")
+      .replace(/ & /g, " & ");
+  };
+  const apiURL = process.env.NEXT_PUBLIC_API_URL as string;
+  const token = process.env.NEXT_PUBLIC_API_TOKEN as string;
+  const title = slug ? transformSlugToTitle(slug) : "";
+  console.log("Title: ", title);
+
+  const client = new GraphQLClient(apiURL, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  const query = gql`
+    query ($title: String!) {
+      pepsPhotographListCollection(where: { title: $title }) {
+        items {
+          title
+          type
+          imagesCollection {
+            items {
+              url
+              title
+              description
+            }
+          }
+          highlight
+        }
+      }
+    }
+  `;
+
+  useEffect(() => {
+    if (title) {
+      client
+        .request(query, { title })
+        .then((data) => {
+          if (data?.pepsPhotographListCollection?.items?.length > 0) {
+            const item = data.pepsPhotographListCollection.items[0];
+            console.log("item", item);
+            const formattedAlbum: PhotoAlbum = {
+              title: item.title,
+              type: item.type,
+              images: item.imagesCollection.items.map((image: any) => ({
+                url: image.url,
+                title: image.title,
+                description: image.description,
+              })),
+              highlight: item.highlight,
+            };
+            setAlbum(formattedAlbum);
+            setLoading(false);
+            console.log("formattedAlbum", formattedAlbum);
+          } else {
+            setAlbum(null);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    }
+  }, [title]);
 
   return (
     <>
@@ -63,7 +131,9 @@ export default function Home() {
             isSidebarOpen={isSidebarOpen}
             currentPage={pathname}
           />
-          <SlugMasonry album={album} />
+          <div className="min-h-screen w-full relative">
+            {!loading && <SlugMasonry album={album as PhotoAlbum} />}
+          </div>
         </aside>
         <Footer />
       </main>

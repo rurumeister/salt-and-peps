@@ -19,7 +19,7 @@ const spectral = Spectral({
 });
 
 export const metadata: Metadata = {
-  title: "Salt and Peps",
+  title: "SaltandPeps",
   description: "Content Creator based in SG",
 };
 

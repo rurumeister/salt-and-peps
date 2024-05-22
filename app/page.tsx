@@ -1,4 +1,5 @@
 "use client";
+import { GraphQLClient, gql } from "graphql-request";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -6,44 +7,93 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
-import { modellingAlbums, photographyAlbums } from "./lists";
+import { PhotoAlbum } from "./interfaces/album";
 const Footer = dynamic(() => import("./components/Footer"));
+
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("PhotographyAll");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [togglePhotography, setTogglePhotography] = useState(true);
-  const [filteredImages, setFilteredImages] = useState(photographyAlbums);
+  const [selectedCategory, setSelectedCategory] =
+    useState<string>("PhotographyAll");
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [togglePhotography, setTogglePhotography] = useState<boolean>(true);
+  const [photoAlbums, setPhotoAlbums] = useState<PhotoAlbum[]>([]);
+  const [filteredImages, setFilteredImages] = useState<PhotoAlbum[]>([]);
+  const apiURL = process.env.NEXT_PUBLIC_API_URL as string;
+  const token = process.env.NEXT_PUBLIC_API_TOKEN as string;
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
+
+  const client = new GraphQLClient(apiURL, {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  });
+
+  const query = gql`
+    query {
+      pepsPhotographListCollection {
+        items {
+          title
+          type
+          imagesCollection {
+            items {
+              url
+              title
+              description
+            }
+          }
+          highlight
+        }
+      }
+    }
+  `;
+
+  useEffect(() => {
+    client
+      .request(query)
+      .then((data) => {
+        console.log(data);
+        const formattedData: PhotoAlbum[] =
+          data?.pepsPhotographListCollection?.items.map((item: any) => ({
+            title: item.title,
+            type: item.type,
+            images: item.imagesCollection.items.map((image: any) => ({
+              url: image.url,
+              title: image.title,
+              description: image.description,
+            })),
+            highlight: item.highlight,
+          }));
+        setPhotoAlbums(formattedData);
+        setFilteredImages(formattedData);
+      })
+      .catch(console.error);
+  }, []);
+
   useEffect(() => {
     console.log("togglePhotography: ", togglePhotography);
     console.log("selectedCategory: ", selectedCategory);
-    if (!!togglePhotography) {
+    if (togglePhotography) {
       const images =
         selectedCategory === "PhotographyAll"
-          ? photographyAlbums
-          : photographyAlbums.filter(
-              (image) => image.type === selectedCategory.toLowerCase()
+          ? photoAlbums
+          : photoAlbums.filter(
+              (album) =>
+                album.type.toLowerCase() === selectedCategory.toLowerCase()
             );
       setFilteredImages(images);
     } else {
       const images =
         selectedCategory === "ModellingAll"
-          ? modellingAlbums
-          : modellingAlbums.filter(
-              (image) => image.type === selectedCategory.toLowerCase()
+          ? photoAlbums
+          : photoAlbums.filter(
+              (album) =>
+                album.type.toLowerCase() === selectedCategory.toLowerCase()
             );
       setFilteredImages(images);
     }
-  }, [togglePhotography, selectedCategory]);
-  // const filteredImages =
-  //   selectedCategory === "All"
-  //     ? photographyAlbums.filter((image) => image.type != "modelling")
-  //     : photographyAlbums.filter(
-  //         (image) => image.type === selectedCategory.toLowerCase()
-  //       );
+  }, [togglePhotography, selectedCategory, photoAlbums]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">

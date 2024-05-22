@@ -2,17 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { AlbumType } from "../interfaces/album";
+import { PhotoAlbum } from "../interfaces/album";
 
 export const HomeMasonry = ({
   filteredImages,
   togglePhotography,
 }: {
-  filteredImages: AlbumType[];
+  filteredImages: PhotoAlbum[];
   togglePhotography: boolean;
 }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
-
+  console.log("filteredImages", filteredImages);
   useEffect(() => {
     console.log(filteredImages);
     setLoadedImages([]);
@@ -29,45 +29,51 @@ export const HomeMasonry = ({
     <div className="lg:pl-5 w-full min-h-screen">
       <div className="masonry-grid">
         {filteredImages.length > 0 ? (
-          filteredImages.map((img, index) => (
-            <div
-              key={index}
-              className={`relative masonry-item group ${
-                loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-              }`}
-            >
-              <Image
-                src={`/test-images/${img.images[0]}`}
-                alt={img.title}
-                layout="responsive"
-                width={250}
-                height={250}
-                style={{ objectFit: "cover" }}
-                onLoad={() => handleImageLoad(index)}
-              />
-              <Link
-                href={`${
-                  togglePhotography === true
-                    ? `photography/${img.title
-                        .toLowerCase()
-                        .replace(/ /g, "-")}`
-                    : `modelling/${img.title.toLowerCase().replace(/ /g, "-")}`
-                } `}
+          filteredImages.map((img, index) => {
+            const firstImage = img.images[0];
+            console.log("firstImage", firstImage);
+            return (
+              <div
+                key={index}
+                className={`relative masonry-item group ${
+                  loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+                }`}
               >
-                <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-sm cursor-pointer underline">
-                    {img.type}
-                  </p>
-                  <p className="text-white text-lg cursor-pointer">
-                    {img.title}
-                  </p>
-                  <p className="text-white text-xs cursor-pointer default-hover">
-                    View more
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))
+                <Image
+                  src={`${firstImage.url}`}
+                  alt={img.title}
+                  layout="responsive"
+                  width={250}
+                  height={250}
+                  style={{ objectFit: "cover" }}
+                  onLoad={() => handleImageLoad(index)}
+                />
+                <Link
+                  href={`${
+                    togglePhotography === true
+                      ? `photography/${img.title
+                          .toLowerCase()
+                          .replace(/ /g, "-")}`
+                      : `modelling/${img.title
+                          .toLowerCase()
+                          .replace(/ /g, "-")}`
+                  } `}
+                >
+                  <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-white text-sm cursor-pointer underline">
+                      {img.type}
+                    </p>
+                    <p className="text-white text-lg cursor-pointer">
+                      {img.title}
+                    </p>
+                    <p className="text-white text-xs cursor-pointer default-hover">
+                      View more
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            );
+          })
         ) : (
           <p>No images found. Stay tuned!</p>
         )}
@@ -109,12 +115,12 @@ export const HomeMasonry = ({
   );
 };
 
-export const SlugMasonry = ({ album }: { album: AlbumType }) => {
+export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
-
+  console.log("album", album);
   useEffect(() => {
     setLoadedImages([]);
-  }, [album.images]);
+  }, [album]);
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => [...prev, index]);
@@ -124,7 +130,7 @@ export const SlugMasonry = ({ album }: { album: AlbumType }) => {
     <div className="min-h-screen w-full relative">
       <div className="relative w-full h-screen">
         <Image
-          src={`/test-images/${album.images[0]}`}
+          src={`${album.images[0].url}`}
           alt={album.title}
           layout="fill"
           objectFit="cover"
@@ -147,8 +153,8 @@ export const SlugMasonry = ({ album }: { album: AlbumType }) => {
             }`}
           >
             <Image
-              src={`/test-images/${img}`}
-              alt={album.title}
+              src={`${img.url}`}
+              alt={img.title}
               layout="responsive"
               width={250}
               height={250}
