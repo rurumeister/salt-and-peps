@@ -5,23 +5,64 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OnlyAllSidebar } from "../../components/Sidebars";
+import { transformSlugToTitle } from "../../helpers";
 import { PhotoAlbum } from "../../interfaces/album";
-import { modellingAlbums } from "../../lists";
 const Footer = dynamic(() => import("../../components/Footer"));
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [album, setAlbum] = useState<PhotoAlbum>();
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const url = `${pathname}${searchParams}`;
   const slug = url.split("/").pop();
-  const album = modellingAlbums.find(
-    (album) => album.title.toLowerCase().replace(/ /g, "-") === slug
-  ) as PhotoAlbum;
 
+  const title = slug ? transformSlugToTitle(slug) : "";
+
+  const fetchModellingData = async (title: string) => {
+    const response = await fetch(
+      `/api/proxy/get-modelling-album/?title=${encodeURIComponent(title)}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching album data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  };
+
+  useEffect(() => {
+    if (title) {
+      fetchModellingData(title)
+        .then((data) => {
+          if (data.pepsModellingListCollection.items.length > 0) {
+            const item = data.pepsModellingListCollection.items[0];
+            const formattedAlbum: PhotoAlbum = {
+              title: item.title,
+              type: item.type,
+              images: item.imagesCollection.items.map((image: any) => ({
+                url: image.url,
+                title: image.title,
+                description: image.description,
+              })),
+              highlight: item.highlight,
+            };
+            setAlbum(formattedAlbum);
+            setLoading(false);
+          } else {
+            setAlbum(undefined);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          setLoading(false);
+        });
+    }
+  }, [title]);
   return (
     <>
       <Head>
@@ -63,7 +104,9 @@ export default function Home() {
             isSidebarOpen={isSidebarOpen}
             currentPage={pathname}
           />
-          <SlugMasonry album={album} />
+          <div className="min-h-screen w-full relative">
+            {!loading && <SlugMasonry album={album as PhotoAlbum} />}
+          </div>
         </aside>
         <Footer />
       </main>

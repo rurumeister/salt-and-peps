@@ -1,70 +1,45 @@
 "use client";
 import { SlugMasonry } from "@/app/components/Masonry";
-import { GraphQLClient, gql } from "graphql-request";
+import { OnlyAllSidebar } from "@/app/components/Sidebars";
+import { transformSlugToTitle } from "@/app/helpers";
+import { PhotoAlbum } from "@/app/interfaces/album";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { OnlyAllSidebar } from "../../components/Sidebars";
-import { PhotoAlbum } from "../../interfaces/album";
-const Footer = dynamic(() => import("../../components/Footer"));
+const Footer = dynamic(() => import("@/app/components/Footer"));
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [album, setAlbum] = useState<PhotoAlbum | null>(null);
+  const [album, setAlbum] = useState<PhotoAlbum>();
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const url = `${pathname}${searchParams}`;
   const slug = url.split("/").pop();
-  const transformSlugToTitle = (slug: string) => {
-    return slug
-      .split("-")
-      .map((word) => word.replace(/^./, (match) => match.toUpperCase()))
-      .join(" ")
-      .replace(/ & /g, " & ");
-  };
-  const apiURL = process.env.NEXT_PUBLIC_API_URL as string;
-  const token = process.env.NEXT_PUBLIC_API_TOKEN as string;
+
   const title = slug ? transformSlugToTitle(slug) : "";
-  console.log("Title: ", title);
 
-  const client = new GraphQLClient(apiURL, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
-
-  const query = gql`
-    query ($title: String!) {
-      pepsPhotographListCollection(where: { title: $title }) {
-        items {
-          title
-          type
-          imagesCollection {
-            items {
-              url
-              title
-              description
-            }
-          }
-          highlight
-        }
-      }
+  const fetchAlbumData = async (title: string) => {
+    const response = await fetch(
+      `/api/proxy/get-photog-album/?title=${encodeURIComponent(title)}`
+    );
+    if (!response.ok) {
+      throw new Error(`Error fetching album data: ${response.statusText}`);
     }
-  `;
+    const data = await response.json();
+    return data;
+  };
 
   useEffect(() => {
     if (title) {
-      client
-        .request(query, { title })
+      fetchAlbumData(title)
         .then((data) => {
-          if (data?.pepsPhotographListCollection?.items?.length > 0) {
+          if (data.pepsPhotographListCollection.items.length > 0) {
             const item = data.pepsPhotographListCollection.items[0];
-            console.log("item", item);
             const formattedAlbum: PhotoAlbum = {
               title: item.title,
               type: item.type,
@@ -77,9 +52,8 @@ export default function Home() {
             };
             setAlbum(formattedAlbum);
             setLoading(false);
-            console.log("formattedAlbum", formattedAlbum);
           } else {
-            setAlbum(null);
+            setAlbum(undefined);
             setLoading(false);
           }
         })

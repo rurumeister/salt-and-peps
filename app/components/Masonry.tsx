@@ -12,26 +12,21 @@ export const HomeMasonry = ({
   togglePhotography: boolean;
 }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
-  console.log("filteredImages", filteredImages);
+
   useEffect(() => {
-    console.log(filteredImages);
     setLoadedImages([]);
   }, [filteredImages]);
-  useEffect(() => {
-    console.log(togglePhotography);
-  }, [togglePhotography]);
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => [...prev, index]);
   };
-
+  //TODO: if it is modelling, unless it is all, just show all the images, also do the same for Portraits
   return (
     <div className="lg:pl-5 w-full min-h-screen">
       <div className="masonry-grid">
         {filteredImages.length > 0 ? (
           filteredImages.map((img, index) => {
             const firstImage = img.images[0];
-            console.log("firstImage", firstImage);
             return (
               <div
                 key={index}
@@ -117,7 +112,6 @@ export const HomeMasonry = ({
 
 export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
-  console.log("album", album);
   useEffect(() => {
     setLoadedImages([]);
   }, [album]);
@@ -131,7 +125,7 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
       <div className="relative w-full h-screen">
         <Image
           src={`${album.images[0].url}`}
-          alt={album.title}
+          alt={album?.title}
           layout="fill"
           objectFit="cover"
           className={`absolute inset-0 ${
@@ -140,12 +134,12 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
           onLoad={() => handleImageLoad(0)}
         />
         <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
-          <p className=" font-bold text-white">{album.title}</p>
+          <p className=" font-bold text-white">{album?.title}</p>
         </div>
       </div>
       {/* Masonry layout for the remaining images */}
       <div className="pt-2 masonry-grid">
-        {album.images.slice(1).map((img, index) => (
+        {album?.images.slice(1).map((img, index) => (
           <div
             key={index + 1}
             className={`relative masonry-item group ${

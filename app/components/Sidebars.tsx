@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { modellingAlbums, photographyFilter } from "../lists";
+import { photographyFilter } from "../lists";
 type MainSidebarProps = {
   isSidebarOpen: boolean;
   setTogglePhotography: (value: boolean) => void;
   toggleSidebar: () => void;
   selectedCategory: string;
   handleCategoryChange: (category: string) => void;
+  modellingFilter: string[];
 };
 
 export const MainSidebar = ({
@@ -15,6 +16,7 @@ export const MainSidebar = ({
   toggleSidebar,
   selectedCategory,
   handleCategoryChange,
+  modellingFilter,
 }: MainSidebarProps) => {
   return (
     <div
@@ -31,8 +33,8 @@ export const MainSidebar = ({
           height={100}
           className="hidden lg:block"
         />
-        <p className="inconsolata font-extralight ml-12">Photography</p>
-        <div className="lg:ml-16 flex flex-col">
+        <p className="inconsolata font-extralight lg:ml-12">Photography</p>
+        <div className="ml-12 lg:ml-16 flex flex-col">
           <button
             className={`default-hover w-40 text-left ${
               selectedCategory === "PhotographyAll" && "font-bold"
@@ -64,9 +66,9 @@ export const MainSidebar = ({
           ))}
         </div>
         <div className="flex flex-col pt-8 ">
-          <button className="text-left ml-12">Modelling</button>
+          <button className="text-left lg:ml-12">Modelling</button>
           <button
-            className={`text-left lg:ml-16 default-hover ${
+            className={`default-hover ml-12 lg:ml-16 w-40 text-left ${
               selectedCategory === "ModellingAll" && "font-bold"
             }`}
             onClick={() => {
@@ -78,20 +80,20 @@ export const MainSidebar = ({
           >
             All
           </button>
-          {modellingAlbums.map((category, index) => (
+          {modellingFilter.map((category, index) => (
             <button
               key={index}
-              className={`default-hover text-left lg:ml-16 ${
-                selectedCategory === category.type && "font-bold"
+              className={`default-hover ml-12 lg:ml-16 capitalize text-left ${
+                selectedCategory === category && "font-bold"
               }`}
               onClick={() => {
-                handleCategoryChange(category.type);
+                handleCategoryChange(category);
                 toggleSidebar();
                 setTogglePhotography(false);
                 window.scrollTo(0, 0);
               }}
             >
-              {category.title}
+              {category}
             </button>
           ))}
         </div>
@@ -134,11 +136,15 @@ export const OnlyAllSidebar = ({
           height={100}
           className="hidden lg:block"
         />
-        <h2 className="ml-12">Photography</h2>
+        <h2 className="ml-12 opacity-20 cursor-not-allowed">Photography</h2>
         <div className="lg:ml-16 flex flex-col">
-          <Link href="/">
-            <button className={`default-hover w-40 text-left`}>All</button>
-          </Link>
+          {/* <Link href="/"> */}
+          <button
+            className={`default-hover w-40 text-left opacity-20 cursor-not-allowed`}
+          >
+            All
+          </button>
+          {/* </Link> */}
           {photographyFilter.map((category) => (
             <p
               key={category}
@@ -162,15 +168,20 @@ export const OnlyAllSidebar = ({
             Modelling
           </button>
           <button className="text-left lg:ml-16 cursor-not-allowed">All</button>
-          {modellingAlbums.map((category, index) => (
+          {/* {modellingFilter.map((category, index) => (
             <button
               key={index}
-              className="text-left lg:ml-16 cursor-not-allowed"
+              className="default-hover w-40 text-left lg:ml-16 cursor-not-allowed"
             >
               {category.title}
             </button>
-          ))}
+          ))} */}
         </div>
+      </div>
+      <div>
+        <Link href="/">
+          <button className="about-button ml-12 default-hover">Back</button>
+        </Link>
       </div>
       <div className="ml-12 pb-8 flex flex-col">
         <button className="about-button default-hover">

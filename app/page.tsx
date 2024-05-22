@@ -1,5 +1,4 @@
 "use client";
-import { GraphQLClient, gql } from "graphql-request";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -16,44 +15,35 @@ export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [togglePhotography, setTogglePhotography] = useState<boolean>(true);
   const [photoAlbums, setPhotoAlbums] = useState<PhotoAlbum[]>([]);
+  const [modellingAlbums, setModellingAlbums] = useState<PhotoAlbum[]>([]);
+  const [modellingFilter, setModellingFilter] = useState<string[]>([]);
   const [filteredImages, setFilteredImages] = useState<PhotoAlbum[]>([]);
-  const apiURL = process.env.NEXT_PUBLIC_API_URL as string;
-  const token = process.env.NEXT_PUBLIC_API_TOKEN as string;
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
 
-  const client = new GraphQLClient(apiURL, {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
-
-  const query = gql`
-    query {
-      pepsPhotographListCollection {
-        items {
-          title
-          type
-          imagesCollection {
-            items {
-              url
-              title
-              description
-            }
-          }
-          highlight
-        }
-      }
+  const fetchAllPhotoAlbums = async () => {
+    const response = await fetch("/api/proxy/get-photog-all");
+    if (!response.ok) {
+      throw new Error(`Error fetching all albums: ${response.statusText}`);
     }
-  `;
+    const data = await response.json();
+    return data;
+  };
+
+  const fetchAllModellingAlbums = async () => {
+    const response = await fetch("/api/proxy/get-modelling-all");
+    if (!response.ok) {
+      throw new Error(`Error fetching all albums: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  };
 
   useEffect(() => {
-    client
-      .request(query)
+    fetchAllPhotoAlbums()
       .then((data) => {
-        console.log(data);
         const formattedData: PhotoAlbum[] =
           data?.pepsPhotographListCollection?.items.map((item: any) => ({
             title: item.title,
@@ -68,12 +58,39 @@ export default function Home() {
         setPhotoAlbums(formattedData);
         setFilteredImages(formattedData);
       })
-      .catch(console.error);
+      .catch((error: string) => {
+        console.error(error);
+      });
+    fetchAllModellingAlbums()
+      .then((data) => {
+        const formattedData: PhotoAlbum[] =
+          data?.pepsModellingListCollection?.items.map((item: any) => ({
+            title: item.title,
+            type: item.type,
+            images: item.imagesCollection.items.map((image: any) => ({
+              url: image.url,
+              title: image.title,
+              description: image.description,
+            })),
+            highlight: item.highlight,
+          }));
+        setModellingAlbums(formattedData);
+
+        const filter: string[] = [];
+        formattedData.forEach((album) => {
+          if (!filter.includes(album.title)) {
+            filter.push(album.title);
+          }
+        });
+        setModellingFilter(filter);
+        setFilteredImages(formattedData);
+      })
+      .catch((error: string) => {
+        console.error(error);
+      });
   }, []);
 
   useEffect(() => {
-    console.log("togglePhotography: ", togglePhotography);
-    console.log("selectedCategory: ", selectedCategory);
     if (togglePhotography) {
       const images =
         selectedCategory === "PhotographyAll"
@@ -86,14 +103,14 @@ export default function Home() {
     } else {
       const images =
         selectedCategory === "ModellingAll"
-          ? photoAlbums
-          : photoAlbums.filter(
+          ? modellingAlbums
+          : modellingAlbums.filter(
               (album) =>
-                album.type.toLowerCase() === selectedCategory.toLowerCase()
+                album.title.toLowerCase() === selectedCategory.toLowerCase()
             );
       setFilteredImages(images);
     }
-  }, [togglePhotography, selectedCategory, photoAlbums]);
+  }, [togglePhotography, selectedCategory, photoAlbums, modellingAlbums]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
@@ -138,6 +155,7 @@ export default function Home() {
           toggleSidebar={toggleSidebar}
           selectedCategory={selectedCategory}
           handleCategoryChange={handleCategoryChange}
+          modellingFilter={modellingFilter}
         />
         <HomeMasonry
           filteredImages={filteredImages}
