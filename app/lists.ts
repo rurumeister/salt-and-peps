@@ -1,6 +1,6 @@
 import { AlbumType } from "./interfaces/album";
-export const filter = [
-  "All",
+
+export const photographyFilter = [
   "Pre Wedding",
   "Couples",
   "Fashion",
@@ -8,9 +8,9 @@ export const filter = [
   "Events",
   "Food",
   "Travel",
-  "Modelling",
 ];
-export const albums: AlbumType[] = [
+
+export const photographyAlbums: AlbumType[] = [
   {
     title: "Arcade X Flashback",
     type: "fashion",
@@ -34,16 +34,6 @@ export const albums: AlbumType[] = [
     images: ["DSC08153.jpg", "DSC08951.jpg", "DSC09082.jpg"],
   },
   {
-    title: "Sudio Collage",
-    type: "products",
-    setToShow: true,
-    images: [
-      "Sudio-Collage-FinalR2_01.jpg",
-      "Sudio-Collage-FinalR2_02.jpg",
-      "Sudio-Collage-FinalR2_03.jpg",
-    ],
-  },
-  {
     title: "Dempsey X Chiara",
     type: "events",
     setToShow: true,
@@ -53,10 +43,33 @@ export const albums: AlbumType[] = [
       "dempsey-x-chiara_03.jpg",
     ],
   },
+  // {
+  //   title: "Nat Layn",
+  //   type: "modelling",
+  //   setToShow: true,
+  //   images: ["DSC05690.jpg", "DSC05932.jpg"],
+  // },
+];
+
+export const modellingAlbums: AlbumType[] = [
   {
-    title: "Nat Layn",
-    type: "modelling",
+    title: "Sudio Collage",
+    type: "sudio-collage",
     setToShow: true,
-    images: ["DSC05690.jpg", "DSC05932.jpg"],
+    images: [
+      "Sudio-Collage-FinalR2_01.jpg",
+      "Sudio-Collage-FinalR2_02.jpg",
+      "Sudio-Collage-FinalR2_03.jpg",
+    ],
+  },
+  {
+    title: "Dempsey X Chiara",
+    type: "dempsey-x-chiara",
+    setToShow: true,
+    images: [
+      "dempsey-x-chiara_01.jpg",
+      "dempsey-x-chiara_02.jpg",
+      "dempsey-x-chiara_03.jpg",
+    ],
   },
 ];

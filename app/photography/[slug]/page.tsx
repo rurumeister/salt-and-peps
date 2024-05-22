@@ -8,7 +8,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { OnlyAllSidebar } from "../../components/Sidebars";
 import { AlbumType } from "../../interfaces/album";
-import { albums } from "../../lists";
+import { photographyAlbums } from "../../lists";
 const Footer = dynamic(() => import("../../components/Footer"));
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
   const searchParams = useSearchParams();
   const url = `${pathname}${searchParams}`;
   const slug = url.split("/").pop();
-  const album = albums.find(
+  const album = photographyAlbums.find(
     (album) => album.title.toLowerCase().replace(/ /g, "-") === slug
   ) as AlbumType;
 

@@ -31,8 +31,12 @@ p {
   }
 }
 
-.cursive {
-  font-family: var(--font-tangerine);
+.inconsolata {
+  font-family: var(--font-inconsolata);
+}
+
+.spectral {
+  font-family: var(--font-spectral);
 }
 
 .default-hover {

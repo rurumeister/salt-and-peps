@@ -6,14 +6,20 @@ import { AlbumType } from "../interfaces/album";
 
 export const HomeMasonry = ({
   filteredImages,
+  togglePhotography,
 }: {
   filteredImages: AlbumType[];
+  togglePhotography: boolean;
 }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
 
   useEffect(() => {
+    console.log(filteredImages);
     setLoadedImages([]);
   }, [filteredImages]);
+  useEffect(() => {
+    console.log(togglePhotography);
+  }, [togglePhotography]);
 
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => [...prev, index]);
@@ -37,47 +43,16 @@ export const HomeMasonry = ({
                 width={250}
                 height={250}
                 style={{ objectFit: "cover" }}
-                onLoadingComplete={() => handleImageLoad(index)}
+                onLoad={() => handleImageLoad(index)}
               />
               <Link
-                href={`album/${img.title.toLowerCase().replace(/ /g, "-")}`}
-              >
-                <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p className="text-white text-sm cursor-pointer underline">
-                    {img.type}
-                  </p>
-                  <p className="text-white text-lg cursor-pointer">
-                    {img.title}
-                  </p>
-                  <p className="text-white text-xs cursor-pointer default-hover">
-                    View more
-                  </p>
-                </div>
-              </Link>
-            </div>
-          ))
-        ) : (
-          <p>No images found. Stay tuned!</p>
-        )}
-        {filteredImages.length > 0 ? (
-          filteredImages.map((img, index) => (
-            <div
-              key={index}
-              className={`relative masonry-item group ${
-                loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-              }`}
-            >
-              <Image
-                src={`/test-images/${img.images[0]}`}
-                alt={img.title}
-                layout="responsive"
-                width={250}
-                height={250}
-                style={{ objectFit: "cover" }}
-                onLoadingComplete={() => handleImageLoad(index)}
-              />
-              <Link
-                href={`album/${img.title.toLowerCase().replace(/ /g, "-")}`}
+                href={`${
+                  togglePhotography === true
+                    ? `photography/${img.title
+                        .toLowerCase()
+                        .replace(/ /g, "-")}`
+                    : `modelling/${img.title.toLowerCase().replace(/ /g, "-")}`
+                } `}
               >
                 <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <p className="text-white text-sm cursor-pointer underline">
@@ -147,7 +122,7 @@ export const SlugMasonry = ({ album }: { album: AlbumType }) => {
 
   return (
     <div className="min-h-screen w-full relative">
-      <div className="relative w-full h-screen ml-5">
+      <div className="relative w-full h-screen">
         <Image
           src={`/test-images/${album.images[0]}`}
           alt={album.title}
@@ -156,14 +131,14 @@ export const SlugMasonry = ({ album }: { album: AlbumType }) => {
           className={`absolute inset-0 ${
             loadedImages.includes(0) ? "opacity-in" : "opacity-out"
           }`}
-          onLoadingComplete={() => handleImageLoad(0)}
+          onLoad={() => handleImageLoad(0)}
         />
         <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
           <p className=" font-bold text-white">{album.title}</p>
         </div>
       </div>
       {/* Masonry layout for the remaining images */}
-      <div className="pl-5 pt-2 masonry-grid">
+      <div className="pt-2 masonry-grid">
         {album.images.slice(1).map((img, index) => (
           <div
             key={index + 1}
@@ -178,7 +153,7 @@ export const SlugMasonry = ({ album }: { album: AlbumType }) => {
               width={250}
               height={250}
               style={{ objectFit: "cover" }}
-              onLoadingComplete={() => handleImageLoad(index + 1)}
+              onLoad={() => handleImageLoad(index + 1)}
             />
           </div>
         ))}

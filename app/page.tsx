@@ -3,22 +3,47 @@ import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
-import { albums } from "./lists";
+import { modellingAlbums, photographyAlbums } from "./lists";
 const Footer = dynamic(() => import("./components/Footer"));
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("PhotographyAll");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [togglePhotography, setTogglePhotography] = useState(true);
+  const [filteredImages, setFilteredImages] = useState(photographyAlbums);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
-  const filteredImages =
-    selectedCategory === "All"
-      ? albums
-      : albums.filter((image) => image.type === selectedCategory.toLowerCase());
+  useEffect(() => {
+    console.log("togglePhotography: ", togglePhotography);
+    console.log("selectedCategory: ", selectedCategory);
+    if (!!togglePhotography) {
+      const images =
+        selectedCategory === "PhotographyAll"
+          ? photographyAlbums
+          : photographyAlbums.filter(
+              (image) => image.type === selectedCategory.toLowerCase()
+            );
+      setFilteredImages(images);
+    } else {
+      const images =
+        selectedCategory === "ModellingAll"
+          ? modellingAlbums
+          : modellingAlbums.filter(
+              (image) => image.type === selectedCategory.toLowerCase()
+            );
+      setFilteredImages(images);
+    }
+  }, [togglePhotography, selectedCategory]);
+  // const filteredImages =
+  //   selectedCategory === "All"
+  //     ? photographyAlbums.filter((image) => image.type != "modelling")
+  //     : photographyAlbums.filter(
+  //         (image) => image.type === selectedCategory.toLowerCase()
+  //       );
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
@@ -58,12 +83,16 @@ export default function Home() {
           />
         </div>
         <MainSidebar
+          setTogglePhotography={setTogglePhotography}
           isSidebarOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
           selectedCategory={selectedCategory}
           handleCategoryChange={handleCategoryChange}
         />
-        <HomeMasonry filteredImages={filteredImages} />
+        <HomeMasonry
+          filteredImages={filteredImages}
+          togglePhotography={togglePhotography}
+        />
       </div>
       <Footer />
     </main>

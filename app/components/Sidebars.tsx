@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { filter } from "../lists";
+import { modellingAlbums, photographyFilter } from "../lists";
 type MainSidebarProps = {
   isSidebarOpen: boolean;
+  setTogglePhotography: (value: boolean) => void;
   toggleSidebar: () => void;
   selectedCategory: string;
   handleCategoryChange: (category: string) => void;
@@ -10,6 +11,7 @@ type MainSidebarProps = {
 
 export const MainSidebar = ({
   isSidebarOpen,
+  setTogglePhotography,
   toggleSidebar,
   selectedCategory,
   handleCategoryChange,
@@ -29,8 +31,22 @@ export const MainSidebar = ({
           height={100}
           className="hidden lg:block"
         />
-        <div className="lg:ml-14 ">
-          {filter.map((category, index) => (
+        <p className="inconsolata font-extralight ml-12">Photography</p>
+        <div className="lg:ml-16 flex flex-col">
+          <button
+            className={`default-hover w-40 text-left ${
+              selectedCategory === "PhotographyAll" && "font-bold"
+            }`}
+            onClick={() => {
+              handleCategoryChange("PhotographyAll");
+              toggleSidebar();
+              setTogglePhotography(true);
+              window.scrollTo(0, 0);
+            }}
+          >
+            All
+          </button>
+          {photographyFilter.map((category, index) => (
             <button
               key={index}
               className={`default-hover w-40 text-left ${
@@ -39,6 +55,7 @@ export const MainSidebar = ({
               onClick={() => {
                 handleCategoryChange(category);
                 toggleSidebar();
+                setTogglePhotography(true);
                 window.scrollTo(0, 0);
               }}
             >
@@ -46,8 +63,40 @@ export const MainSidebar = ({
             </button>
           ))}
         </div>
+        <div className="flex flex-col pt-8 ">
+          <button className="text-left ml-12">Modelling</button>
+          <button
+            className={`text-left lg:ml-16 default-hover ${
+              selectedCategory === "ModellingAll" && "font-bold"
+            }`}
+            onClick={() => {
+              handleCategoryChange("ModellingAll");
+              toggleSidebar();
+              setTogglePhotography(false);
+              window.scrollTo(0, 0);
+            }}
+          >
+            All
+          </button>
+          {modellingAlbums.map((category, index) => (
+            <button
+              key={index}
+              className={`default-hover text-left lg:ml-16 ${
+                selectedCategory === category.type && "font-bold"
+              }`}
+              onClick={() => {
+                handleCategoryChange(category.type);
+                toggleSidebar();
+                setTogglePhotography(false);
+                window.scrollTo(0, 0);
+              }}
+            >
+              {category.title}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="lg:ml-14 pb-8 flex flex-col">
+      <div className="lg:ml-12 pb-8 flex flex-col">
         <button className="about-button default-hover">
           <Link href="about">
             <p>About</p>
@@ -62,6 +111,7 @@ export const MainSidebar = ({
     </div>
   );
 };
+
 export const OnlyAllSidebar = ({
   isSidebarOpen,
   currentPage,
@@ -74,7 +124,7 @@ export const OnlyAllSidebar = ({
       id="sidebar"
       className={`sidebar min-h-screen self-start flex flex-col justify-between min-w-[300px] sticky top-0 p-5 transform transition-transform duration-300 ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } lg:transform-none lg:relative`}
+      } lg:transform-none lg:sticky`}
     >
       <div>
         <Image
@@ -84,8 +134,12 @@ export const OnlyAllSidebar = ({
           height={100}
           className="hidden lg:block"
         />
-        <div className="ml-14">
-          {filter.map((category) => (
+        <h2 className="ml-12">Photography</h2>
+        <div className="lg:ml-16 flex flex-col">
+          <Link href="/">
+            <button className={`default-hover w-40 text-left`}>All</button>
+          </Link>
+          {photographyFilter.map((category) => (
             <p
               key={category}
               className={`w-40 ${
@@ -103,17 +157,31 @@ export const OnlyAllSidebar = ({
             </p>
           ))}
         </div>
+        <div className="flex flex-col pt-8 opacity-20">
+          <button className="text-left ml-12 cursor-not-allowed">
+            Modelling
+          </button>
+          <button className="text-left lg:ml-16 cursor-not-allowed">All</button>
+          {modellingAlbums.map((category, index) => (
+            <button
+              key={index}
+              className="text-left lg:ml-16 cursor-not-allowed"
+            >
+              {category.title}
+            </button>
+          ))}
+        </div>
       </div>
-      <div className="ml-14 pb-8 flex flex-col">
+      <div className="ml-12 pb-8 flex flex-col">
         <button className="about-button default-hover">
-          <Link href="about">
+          <Link href="/about">
             <p className={`${currentPage === "/about" && "font-bold"} `}>
               About
             </p>
           </Link>
         </button>{" "}
         <button className="contact-button default-hover">
-          <Link href="contact">
+          <Link href="/contact">
             <p className={`${currentPage === "/contact" && "font-bold"}`}>
               Contact
             </p>

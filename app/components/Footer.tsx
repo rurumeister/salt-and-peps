@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <footer className="py-8 px-5 mt-10 w-full">
       <div className="flex justify-between items-center">
-        <p id="cursive" className="cursive text-2xl">
+        <p className="spectral text-xs ml-12 italic">
           all content copyright © 2024 saltandpeps
         </p>
         <div className="flex gap-5">
