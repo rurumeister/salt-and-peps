@@ -43,9 +43,10 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
             <Image
               src={`${img.url}`}
               alt={img.title || "Masonry Image"}
+              layout="responsive"
               width={250}
               height={250}
-              style={{ objectFit: "cover", width: "100%", height: "auto" }}
+              style={{ objectFit: "cover" }}
               onLoad={() => handleImageLoad(index + 1)}
             />
           </div>
