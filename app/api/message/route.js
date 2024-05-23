@@ -48,7 +48,9 @@ export async function POST(req) {
     await sgMail.send({
       to: process.env.EMAIL_RECEIVER,
       from: process.env.EMAIL_SENDER,
-      subject: `SaltandPeps Enquiry: [${body.serviceType || "Unknown"}]`,
+      subject: `SaltandPeps Website Enquiry: [${
+        body.serviceType || "Unknown"
+      }]`,
       html: htmlToBeSent,
     });
   } catch (error) {
