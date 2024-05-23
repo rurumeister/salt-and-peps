@@ -143,9 +143,10 @@ export default function Home() {
                   }}
                 >
                   Peps also models on a freelance basis – having worked with
-                  Limited Edt on an International Women's Day campaign,
-                  AforArcade's 9th Anniversary "Flashback Collection" catalogue
-                  as well as Love Bonito’s 13th Anniversary campaign.
+                  Limited Edt on an International Women&apos;s Day campaign,
+                  AforArcade&apos;s 9th Anniversary &quot;Flashback
+                  Collection&quot; catalogue as well as Love Bonito&apos;s 13th
+                  Anniversary campaign.
                 </p>
                 <p
                   style={{
@@ -161,7 +162,7 @@ export default function Home() {
                       type="submit"
                       className="font-mono font-light rounded-md underline underline-offset-8 py-2 text-xs hover:text-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
                     >
-                      LET'S CHAT !
+                      LET&apos;S CHAT !
                     </button>
                   </div>
                 </Link>
@@ -175,9 +176,10 @@ export default function Home() {
                 }}
               >
                 Peps also models on a freelance basis – having worked with
-                Limited Edt on an International Women's Day campaign,
-                AforArcade's 9th Anniversary "Flashback Collection" catalogue as
-                well as Love Bonito’s 13th Anniversary campaign.
+                Limited Edt on an International Women&apos;s Day campaign,
+                AforArcade&apos;s 9th Anniversary &quot;Flashback
+                Collection&quot; catalogue as well as Love Bonito&apos;s 13th
+                Anniversary campaign.
               </p>
               <p
                 style={{
@@ -193,7 +195,7 @@ export default function Home() {
                     type="submit"
                     className="font-mono font-light rounded-md underline underline-offset-8 py-2 text-xs hover:text-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600"
                   >
-                    LET'S CHAT !
+                    LET&apos;S CHAT !
                   </button>
                 </div>
               </Link>
