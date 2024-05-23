@@ -2,7 +2,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
 import { PhotoAlbum } from "../interfaces/album";
+
 export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   useEffect(() => {
@@ -204,46 +206,84 @@ export const HomeMasonry = ({
   };
   //TODO: if it is modelling, unless it is all, just show all the images, also do the same for Portraits
   return (
-    <div className="lg:pl-5 w-full min-h-screen">
-      <div className="masonry-grid">
-        {!togglePhotography &&
-        selectedCategory != "ModellingAll" &&
-        modellingImages?.images?.length > 0 ? (
-          <div>
-            <ModellingMasonry album={modellingImages as PhotoAlbum} />
-          </div>
-        ) : filteredImages.length > 0 ? (
-          filteredImages.map((img, index) => {
-            const firstImage = img.images[0];
-            return (
-              <div
-                key={index}
-                className={`relative masonry-item group ${
-                  loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-                }`}
-              >
-                <Image
-                  src={`${firstImage.url}`}
-                  alt={img.title}
-                  layout="responsive"
-                  width={250}
-                  height={250}
-                  style={{ objectFit: "cover" }}
-                  onLoad={() => handleImageLoad(index)}
-                />
-                {!!togglePhotography ? (
-                  <Link
-                    href={`${
-                      togglePhotography === true
-                        ? `photography/${img.title
-                            .toLowerCase()
-                            .replace(/ /g, "-")}`
-                        : `modelling/${img.title
-                            .toLowerCase()
-                            .replace(/ /g, "-")}`
-                    }`}
-                  >
-                    <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    <div
+      className={`lg:pl-5 w-full min-h-screen flex flex-col ${
+        filteredImages.length < 1 || modellingImages?.images?.length < 1
+          ? "justify-center"
+          : ""
+      }`}
+    >
+      {filteredImages.length < 1 || modellingImages?.images?.length < 1 ? (
+        <div className="flex flex-col w-full self-center">
+          <TailSpin
+            visible={true}
+            height="60"
+            width="60"
+            color="#766a62"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{
+              alignSelf: "center",
+            }}
+            wrapperClass=""
+          />
+        </div>
+      ) : (
+        <div className="masonry-grid">
+          {!togglePhotography &&
+          selectedCategory != "ModellingAll" &&
+          modellingImages?.images?.length > 0 ? (
+            <div>
+              <ModellingMasonry album={modellingImages as PhotoAlbum} />
+            </div>
+          ) : (
+            filteredImages.map((img, index) => {
+              const firstImage = img.images[0];
+              return (
+                <div
+                  key={index}
+                  className={`relative masonry-item group ${
+                    loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+                  }`}
+                >
+                  <Image
+                    src={`${firstImage.url}`}
+                    alt={img.title}
+                    layout="responsive"
+                    width={250}
+                    height={250}
+                    style={{ objectFit: "cover" }}
+                    onLoad={() => handleImageLoad(index)}
+                  />
+                  {!!togglePhotography ? (
+                    <Link
+                      href={`${
+                        togglePhotography === true
+                          ? `photography/${img.title
+                              .toLowerCase()
+                              .replace(/ /g, "-")}`
+                          : `modelling/${img.title
+                              .toLowerCase()
+                              .replace(/ /g, "-")}`
+                      }`}
+                    >
+                      <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p className="text-white text-sm cursor-pointer underline">
+                          {img.type}
+                        </p>
+                        <p className="text-white text-lg cursor-pointer">
+                          {img.title}
+                        </p>
+                        <p className="text-white text-xs cursor-pointer default-hover">
+                          View more
+                        </p>
+                      </div>
+                    </Link>
+                  ) : (
+                    <div
+                      className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      onClick={() => handleCategoryChange(img.title)}
+                    >
                       <p className="text-white text-sm cursor-pointer underline">
                         {img.type}
                       </p>
@@ -254,30 +294,13 @@ export const HomeMasonry = ({
                         View more
                       </p>
                     </div>
-                  </Link>
-                ) : (
-                  <div
-                    className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    onClick={() => handleCategoryChange(img.title)}
-                  >
-                    <p className="text-white text-sm cursor-pointer underline">
-                      {img.type}
-                    </p>
-                    <p className="text-white text-lg cursor-pointer">
-                      {img.title}
-                    </p>
-                    <p className="text-white text-xs cursor-pointer default-hover">
-                      View more
-                    </p>
-                  </div>
-                )}
-              </div>
-            );
-          })
-        ) : (
-          <p>No images found. Stay tuned!</p>
-        )}
-      </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
       <style jsx>{`
         .masonry-grid {
           ${filteredImages.length < 5 ? "column-count: 2;" : "column-count: 4;"}

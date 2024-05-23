@@ -31,6 +31,10 @@ p {
   }
 }
 
+.garamond {
+  font-family: var(--font-cormorant-garamond);
+}
+
 .inconsolata {
   font-family: var(--font-inconsolata);
 }

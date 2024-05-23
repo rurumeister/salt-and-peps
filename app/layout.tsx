@@ -1,8 +1,19 @@
 import type { Metadata } from "next";
-import { Inconsolata, Inter, Spectral } from "next/font/google";
+import {
+  Cormorant_Garamond,
+  Inconsolata,
+  Inter,
+  Spectral,
+} from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
+const cormorant_garamond = Cormorant_Garamond({
+  weight: "400",
+  variable: "--font-cormorant-garamond",
+  display: "swap",
+  subsets: ["latin"],
+});
 
 const inconsolata = Inconsolata({
   weight: "200",
@@ -31,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${spectral.variable} ${inconsolata.className}`}
+        className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cormorant_garamond.className}`}
       >
         {children}
       </body>
