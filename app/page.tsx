@@ -18,80 +18,60 @@ export default function Home() {
   const [modellingAlbums, setModellingAlbums] = useState<PhotoAlbum[]>([]);
   const [modellingFilter, setModellingFilter] = useState<string[]>([]);
   const [filteredImages, setFilteredImages] = useState<PhotoAlbum[]>([]);
+  const [modellingImages, setModellingImages] = useState<any>();
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
-
-  const fetchAllPhotoAlbums = async () => {
-    const response = await fetch("/api/proxy/get-photog-all");
+  const fetchAllAlbums = async () => {
+    const response = await fetch("/api/proxy/fetch-all-albums");
     if (!response.ok) {
-      throw new Error(`Error fetching all albums: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data;
-  };
-
-  const fetchAllModellingAlbums = async () => {
-    const response = await fetch("/api/proxy/get-modelling-all");
-    if (!response.ok) {
-      throw new Error(`Error fetching all albums: ${response.statusText}`);
+      throw new Error(`Error fetching album data: ${response.statusText}`);
     }
     const data = await response.json();
     return data;
   };
 
   useEffect(() => {
-    fetchAllPhotoAlbums()
-      .then((data) => {
-        const formattedData: PhotoAlbum[] =
-          data?.pepsPhotographListCollection?.items.map((item: any) => ({
+    fetchAllAlbums()
+      .then((data: any) => {
+        const photographyList = data.photographyLists
+          ? data.photographyLists
+          : [];
+        const modellingList = data?.modellingLists ? data.modellingLists : [];
+        const formattedPhotoData: PhotoAlbum[] = photographyList.map(
+          (item: any) => ({
             title: item.title,
             type: item.type,
-            images: item.imagesCollection.items.map((image: any) => ({
+            images: item.images.map((image: any) => ({
               url: image.url,
-              title: image.title,
-              description: image.description,
+              title: image.fileName,
+              description: image.fileName,
             })),
             highlight: item.highlight,
-          }));
-        setPhotoAlbums(formattedData);
-        setFilteredImages(formattedData);
-      })
-      .catch((error: string) => {
-        console.error(error);
-      });
-    fetchAllModellingAlbums()
-      .then((data) => {
-        const formattedData: PhotoAlbum[] =
-          data?.pepsModellingListCollection?.items.map((item: any) => ({
+          })
+        );
+        const formattedModellingData: PhotoAlbum[] = modellingList.map(
+          (item: any) => ({
             title: item.title,
             type: item.type,
-            images: item.imagesCollection.items.map((image: any) => ({
+            images: item.images.map((image: any) => ({
               url: image.url,
-              title: image.title,
-              description: image.description,
+              title: image.fileName,
+              description: image.fileName,
             })),
             highlight: item.highlight,
-          }));
-        setModellingAlbums(formattedData);
-
-        const filter: string[] = [];
-        formattedData.forEach((album) => {
-          if (!filter.includes(album.title)) {
-            filter.push(album.title);
-          }
-        });
-        setModellingFilter(filter);
-        setFilteredImages(formattedData);
+          })
+        );
+        setPhotoAlbums(formattedPhotoData);
+        setModellingAlbums(formattedModellingData);
+        setModellingFilter(formattedModellingData.map((album) => album.title));
       })
-      .catch((error: string) => {
-        console.error(error);
-      });
+      .catch((err: string) => console.error(err));
   }, []);
 
   useEffect(() => {
-    if (togglePhotography) {
+    if (!!togglePhotography) {
       const images =
         selectedCategory === "PhotographyAll"
           ? photoAlbums
@@ -109,6 +89,7 @@ export default function Home() {
                 album.title.toLowerCase() === selectedCategory.toLowerCase()
             );
       setFilteredImages(images);
+      selectedCategory != "ModellingAll" && setModellingImages(images[0]);
     }
   }, [togglePhotography, selectedCategory, photoAlbums, modellingAlbums]);
 
@@ -127,7 +108,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div
-        className={`sidebar-container ${
+        className={`sidebar-container max-w-screen-2xl ${
           isSidebarOpen ? "open" : "closed"
         } lg:flex z-10 w-full items-center justify-between font-mono text-sm`}
       >
@@ -137,6 +118,7 @@ export default function Home() {
             alt="Site logo"
             width={200}
             height={100}
+            priority
             className="block lg:hidden"
           />
         </div>
@@ -159,7 +141,10 @@ export default function Home() {
         />
         <HomeMasonry
           filteredImages={filteredImages}
+          modellingImages={modellingImages}
           togglePhotography={togglePhotography}
+          selectedCategory={selectedCategory}
+          handleCategoryChange={handleCategoryChange}
         />
       </div>
       <Footer />

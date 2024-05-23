@@ -31,6 +31,7 @@ export const MainSidebar = ({
           alt="Site logo"
           width={300}
           height={100}
+          priority
           className="hidden lg:block"
         />
         <p className="inconsolata font-extralight lg:ml-12">Photography</p>
@@ -134,6 +135,7 @@ export const OnlyAllSidebar = ({
           alt="Site logo"
           width={300}
           height={100}
+          priority
           className="hidden lg:block"
         />
         <h2 className="ml-12 opacity-20 cursor-not-allowed">Photography</h2>

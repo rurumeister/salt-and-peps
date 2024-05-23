@@ -2,7 +2,7 @@
 import { SlugMasonry } from "@/app/components/Masonry";
 import { OnlyAllSidebar } from "@/app/components/Sidebars";
 import { transformSlugToTitle } from "@/app/helpers";
-import { PhotoAlbum } from "@/app/interfaces/album";
+import { PhotoAlbum, SlugAlbum } from "@/app/interfaces/album";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -14,7 +14,7 @@ const Footer = dynamic(() => import("@/app/components/Footer"));
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [album, setAlbum] = useState<PhotoAlbum>();
+  const [album, setAlbum] = useState<SlugAlbum>();
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -25,7 +25,7 @@ export default function Home() {
 
   const fetchAlbumData = async (title: string) => {
     const response = await fetch(
-      `/api/proxy/get-photog-album/?title=${encodeURIComponent(title)}`
+      `/api/proxy/fetch-album-data/?title=${encodeURIComponent(title)}`
     );
     if (!response.ok) {
       throw new Error(`Error fetching album data: ${response.statusText}`);
@@ -38,17 +38,14 @@ export default function Home() {
     if (title) {
       fetchAlbumData(title)
         .then((data) => {
-          if (data.pepsPhotographListCollection.items.length > 0) {
-            const item = data.pepsPhotographListCollection.items[0];
+          if (data.images.length > 0) {
             const formattedAlbum: PhotoAlbum = {
-              title: item.title,
-              type: item.type,
-              images: item.imagesCollection.items.map((image: any) => ({
+              title: data.title,
+              type: data.type,
+              images: data.images.map((image: any) => ({
                 url: image.url,
-                title: image.title,
-                description: image.description,
+                title: image.filename,
               })),
-              highlight: item.highlight,
             };
             setAlbum(formattedAlbum);
             setLoading(false);
@@ -80,7 +77,7 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
         <aside
-          className={`sidebar-container ${
+          className={`sidebar-container max-w-screen-2xl ${
             isSidebarOpen ? "open" : "closed"
           } lg:flex z-10 w-full items-center justify-between font-mono text-sm`}
         >
@@ -90,6 +87,7 @@ export default function Home() {
               alt="Site Logo"
               width={200}
               height={100}
+              priority
               className="block lg:hidden"
             />
           </div>

@@ -24,7 +24,7 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
         <aside
-          className={`sidebar-container ${
+          className={`sidebar-container max-w-screen-2xl ${
             isSidebarOpen ? "open" : "closed"
           } lg:flex z-10 w-full items-center justify-between font-mono text-sm`}
         >
@@ -34,6 +34,7 @@ export default function Home() {
               alt="Site Logo"
               width={200}
               height={100}
+              priority
               className="block lg:hidden"
             />
           </div>
