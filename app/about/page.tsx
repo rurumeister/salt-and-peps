@@ -73,6 +73,7 @@ export default function Home() {
                     alt="Picture of Peps"
                     width={400}
                     height={200}
+                    priority
                     className="object-contain block w-[100%] md:hidden"
                     style={{ height: "auto" }}
                   />
@@ -109,6 +110,7 @@ export default function Home() {
                 alt="Picture of Peps"
                 width={400}
                 height={200}
+                priority
                 className="object-contain hidden md:block"
                 style={{ width: "300px", height: "auto" }}
               />
@@ -119,6 +121,7 @@ export default function Home() {
                 alt="Picture of Peps"
                 width={250}
                 height={250}
+                priority
                 className="object-cover w-[250px] h-[250px] lg:w-[200px] lg:h-[200px] xl:w-[250px] xl:h-[250px]"
               />
               <Image
@@ -126,6 +129,7 @@ export default function Home() {
                 alt="Picture of Peps"
                 width={400}
                 height={150}
+                priority
                 className="object-contain w-[300px] lg:w-[250px] xl:w-[350px]"
                 style={{ height: "auto" }}
               />
