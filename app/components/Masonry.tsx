@@ -17,10 +17,11 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
     <div className="min-h-screen w-full relative">
       <div className="relative w-full h-screen">
         <Image
-          src={`${album.images[0].url}`}
+          src={`${album?.images?.[0].url}`}
           alt={album?.title}
-          layout="fill"
-          objectFit="cover"
+          fill
+          style={{ objectFit: "cover" }}
+          priority={true}
           className={`absolute inset-0 ${
             loadedImages.includes(0) ? "opacity-in" : "opacity-out"
           }`}
@@ -42,10 +43,9 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
             <Image
               src={`${img.url}`}
               alt={img.title || "Masonry Image"}
-              layout="responsive"
               width={250}
               height={250}
-              style={{ objectFit: "cover" }}
+              style={{ objectFit: "cover", width: "100%", height: "auto" }}
               onLoad={() => handleImageLoad(index + 1)}
             />
           </div>
@@ -105,7 +105,7 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
           src={`${album.images[0].url}`}
           alt={album?.title}
           layout="fill"
-          objectFit="cover"
+          style={{ objectFit: "cover" }}
           className={`absolute inset-0 ${
             loadedImages.includes(0) ? "opacity-in" : "opacity-out"
           }`}

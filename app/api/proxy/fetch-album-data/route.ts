@@ -16,7 +16,7 @@ interface output {
 }
 
 async function fetchAlbumData(title: string) {
-  const id = process.env.HYGRAPH_ENDPOINT as string;
+  const id = process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT as string;
   const graphQLClient = new GraphQLClient(id);
   const query = gql`
     {

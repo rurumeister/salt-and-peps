@@ -76,7 +76,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
-        <aside
+        <div
           className={`sidebar-container max-w-screen-2xl ${
             isSidebarOpen ? "open" : "closed"
           } lg:flex z-10 w-full items-center justify-between font-mono text-sm`}
@@ -106,7 +106,7 @@ export default function Home() {
           <div className="min-h-screen w-full relative">
             {!loading && <SlugMasonry album={album as PhotoAlbum} />}
           </div>
-        </aside>
+        </div>
         <Footer />
       </main>
     </>
