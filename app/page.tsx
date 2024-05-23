@@ -92,7 +92,7 @@ export default function Home() {
       selectedCategory != "ModellingAll" && setModellingImages(images[0]);
     }
   }, [togglePhotography, selectedCategory, photoAlbums, modellingAlbums]);
-
+  console.log("filteredImages", filteredImages);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
       <Head>
