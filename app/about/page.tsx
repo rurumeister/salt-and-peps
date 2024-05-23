@@ -191,7 +191,7 @@ export default function Home() {
                   fontSize: "14px",
                 }}
               >
-                Let’s bring our ideas to life!
+                Let&apos;s bring your ideas to life!
               </p>
               <Link href="/contact">
                 <div className="mt-6 flex items-center justify-center">
