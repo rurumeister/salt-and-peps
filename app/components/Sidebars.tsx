@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { photographyFilter } from "../lists";
+
 type MainSidebarProps = {
   isSidebarOpen: boolean;
   setTogglePhotography: (value: boolean) => void;
@@ -28,7 +29,7 @@ export const MainSidebar = ({
       <div>
         <Image
           src="/logo.svg"
-          alt="Site logo"
+          alt="SaltandPeps Logo"
           width={300}
           height={100}
           priority
@@ -66,8 +67,8 @@ export const MainSidebar = ({
             </button>
           ))}
         </div>
-        <div className="flex flex-col pt-8 ">
-          <button className="text-left lg:ml-12">Modelling</button>
+        <div className="flex flex-col pt-8">
+          <p className="text-left lg:ml-12">Modelling</p>
           <button
             className={`default-hover ml-12 lg:ml-16 w-40 text-left ${
               selectedCategory === "ModellingAll" && "font-bold"
@@ -99,14 +100,14 @@ export const MainSidebar = ({
           ))}
         </div>
       </div>
-      <div className="lg:ml-12 pb-8 flex flex-col">
+      <div className="lg:ml-12 pb-24 lg:pb-8 flex flex-col">
         <button className="about-button default-hover">
-          <Link href="about">
+          <Link href="/about">
             <p>About</p>
           </Link>
         </button>
         <button className="contact-button default-hover">
-          <Link href="contact">
+          <Link href="/contact">
             <p>Contact</p>
           </Link>
         </button>
@@ -132,7 +133,7 @@ export const OnlyAllSidebar = ({
       <div>
         <Image
           src="/logo.svg"
-          alt="Site logo"
+          alt="SaltandPeps Logo"
           width={300}
           height={100}
           priority
@@ -140,13 +141,11 @@ export const OnlyAllSidebar = ({
         />
         <h2 className="ml-12 opacity-20 cursor-not-allowed">Photography</h2>
         <div className="lg:ml-16 flex flex-col">
-          {/* <Link href="/"> */}
           <button
             className={`default-hover w-40 text-left opacity-20 cursor-not-allowed`}
           >
             All
           </button>
-          {/* </Link> */}
           {photographyFilter.map((category) => (
             <p
               key={category}
@@ -170,14 +169,6 @@ export const OnlyAllSidebar = ({
             Modelling
           </button>
           <button className="text-left lg:ml-16 cursor-not-allowed">All</button>
-          {/* {modellingFilter.map((category, index) => (
-            <button
-              key={index}
-              className="default-hover w-40 text-left lg:ml-16 cursor-not-allowed"
-            >
-              {category.title}
-            </button>
-          ))} */}
         </div>
       </div>
       <div>
@@ -185,7 +176,7 @@ export const OnlyAllSidebar = ({
           <button className="about-button ml-12 default-hover">Back</button>
         </Link>
       </div>
-      <div className="ml-12 pb-8 flex flex-col">
+      <div className="ml-12 pb-24 lg:pb-8 flex flex-col">
         <button className="about-button default-hover">
           <Link href="/about">
             <p className={`${currentPage === "/about" && "font-bold"} `}>

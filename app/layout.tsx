@@ -30,8 +30,10 @@ const spectral = Spectral({
 });
 
 export const metadata: Metadata = {
-  title: "SaltandPeps",
-  description: "Content Creator based in SG",
+  title: "SaltandPeps - Photography, Pre-Wedding, Content Creator Singapore",
+  description:
+    "SaltandPeps: Professional Photography, Pre-Wedding, and Content Creation services in Singapore. Explore our gallery and services.",
+  keywords: "Photography, Pre-Wedding, Content Creator, Singapore, SaltandPeps",
 };
 
 export default function RootLayout({
@@ -41,6 +43,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="author" content="SaltandPeps" />
+        <link rel="canonical" href="https://www.saltandpeps.com" />
+      </head>
       <body
         className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cormorant_garamond.className}`}
       >

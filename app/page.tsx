@@ -92,19 +92,23 @@ export default function Home() {
       selectedCategory != "ModellingAll" && setModellingImages(images[0]);
     }
   }, [togglePhotography, selectedCategory, photoAlbums, modellingAlbums]);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
       <Head>
-        <title>Photo Gallery</title>
+        <title>
+          SaltandPeps Photo Gallery - Professional Photography in Singapore
+        </title>
         <meta
           name="description"
-          content="A collection of beautiful photos categorized for easy browsing."
+          content="Explore the SaltandPeps photo gallery featuring a collection of stunning photographs categorized for easy browsing. Discover our professional photography services in Singapore."
         />
         <meta
           name="keywords"
-          content="photo gallery, images, categories, photography"
+          content="photo gallery, images, categories, photography, Singapore"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://www.saltandpeps.com/gallery" />
       </Head>
       <div
         className={`sidebar-container max-w-screen-2xl ${
@@ -114,7 +118,7 @@ export default function Home() {
         <div className="flex items-center">
           <Image
             src="/logo.svg"
-            alt="Site logo"
+            alt="SaltandPeps Logo"
             width={200}
             height={100}
             priority

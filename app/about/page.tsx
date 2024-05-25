@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { OnlyAllSidebar } from "../components/Sidebars";
 const Footer = dynamic(() => import("../components/Footer"));
+
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -15,13 +16,19 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
       <Head>
-        <title>About Me</title>
-        <meta name="description" content="Learn all about me on this page." />
+        <title>
+          About SaltandPeps - Professional Photography and Content Creation
+        </title>
+        <meta
+          name="description"
+          content="Learn about Peps, the creative mind behind SaltandPeps. Specializing in portraits, fashion, food, events, pre-wedding photography, and content creation in Singapore."
+        />
         <meta
           name="keywords"
-          content="about, personal, information, biography"
+          content="about, personal, information, biography, photography, content creator, Singapore"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://www.saltandpeps.com/about" />
       </Head>
       <div
         className={`sidebar-container max-w-screen-2xl ${
@@ -31,7 +38,7 @@ export default function Home() {
         <div className="flex items-center">
           <Image
             src="/logo.svg"
-            alt="Site Logo"
+            alt="SaltandPeps Logo"
             width={200}
             height={100}
             priority
@@ -53,12 +60,6 @@ export default function Home() {
             <div className="relative flex gap-4 h-fit">
               <div className="flex flex-col justify-end pb-4">
                 <div className="flex flex-col gap-4">
-                  {/* <div
-                    className="w-80 underline absolute top-24 right-0"
-                    style={{
-                      borderBottom: "2px solid #DBBEA8",
-                    }}
-                  ></div> */}
                   <h2
                     className="font-semibold text-5xl pb-4 underline underline-offset-4"
                     style={{
@@ -158,7 +159,7 @@ export default function Home() {
                     fontSize: "14px",
                   }}
                 >
-                  Let’s bring our ideas to life!
+                  Let’s bring your ideas to life!
                 </p>
                 <Link href="/contact">
                   <div className="mt-6 flex items-center justify-center">

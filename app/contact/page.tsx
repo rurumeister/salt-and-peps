@@ -1,6 +1,5 @@
 "use client";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
-// import dotenv from "dotenv";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -10,10 +9,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { OnlyAllSidebar } from "../components/Sidebars";
 import { photographyFilter } from "../lists";
-// dotenv.config();
 const Footer = dynamic(() => import("../components/Footer"));
 
-export default function Home() {
+export default function Contact() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
 
@@ -55,6 +53,7 @@ export default function Home() {
 
       if (res.status === 200) {
         alert("Message Sent Successfully!");
+        window.location.reload();
       } else {
         alert("Error: " + responseData.message);
       }
@@ -67,13 +66,20 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
       <Head>
-        <title>Contact Me</title>
+        <title>
+          Contact SaltandPeps - Get in Touch for Photography and Content
+          Creation
+        </title>
         <meta
           name="description"
-          content="Get in touch with me through this page."
+          content="Reach out to SaltandPeps for professional photography and content creation services in Singapore. Let's bring your ideas to life!"
         />
-        <meta name="keywords" content="contact, get in touch, reach out" />
+        <meta
+          name="keywords"
+          content="contact, photography, content creation, Singapore, SaltandPeps"
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href="https://www.saltandpeps.com/contact" />
       </Head>
       <div
         className={`sidebar-container max-w-screen-2xl ${
@@ -83,7 +89,7 @@ export default function Home() {
         <div className="flex items-center">
           <Image
             src="/logo.svg"
-            alt="Site Logo"
+            alt="SaltandPeps Logo"
             width={200}
             height={100}
             priority

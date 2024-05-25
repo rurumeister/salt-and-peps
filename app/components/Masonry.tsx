@@ -30,10 +30,9 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
           onLoad={() => handleImageLoad(0)}
         />
         <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
-          <p className=" font-bold text-white">{album?.title}</p>
+          <p className="font-bold text-white">{album?.title}</p>
         </div>
       </div>
-      {/* Masonry layout for the remaining images */}
       <div className="pt-2 masonry-grid">
         {album?.images.slice(1).map((img, index) => (
           <div
@@ -115,10 +114,9 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
           onLoad={() => handleImageLoad(0)}
         />
         <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
-          <p className=" font-bold text-white">{album?.title}</p>
+          <p className="font-bold text-white">{album?.title}</p>
         </div>
       </div>
-      {/* Masonry layout for the remaining images */}
       <div className="masonry masonry-grid">
         {album?.images.slice(1).map((img, index) => (
           <div
@@ -204,7 +202,7 @@ export const HomeMasonry = ({
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => [...prev, index]);
   };
-  //TODO: if it is modelling, unless it is all, just show all the images, also do the same for Portraits
+
   return (
     <div
       className={`lg:pl-5 w-full min-h-screen flex flex-col ${

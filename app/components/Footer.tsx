@@ -1,6 +1,7 @@
 import { GoArrowUp } from "react-icons/go";
 import { PiInstagramLogoLight } from "react-icons/pi";
 const instagramURL = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
+
 const Footer = () => {
   return (
     <footer className="py-8 lg:px-5 mt-10 w-full max-w-screen-2xl">
@@ -14,17 +15,19 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="text-xl default-hover"
+            aria-label="Instagram"
           >
             <PiInstagramLogoLight />
           </a>
-          <div
+          <button
             className="text-xl default-hover"
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
+            aria-label="Scroll to top"
           >
             <GoArrowUp />
-          </div>
+          </button>
         </div>
       </div>
     </footer>

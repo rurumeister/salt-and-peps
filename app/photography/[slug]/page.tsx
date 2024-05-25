@@ -64,16 +64,24 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>{album?.title || "Album"}</title>
+        <title>{album?.title || "Album"} - SaltandPeps Photography</title>
         <meta
           name="description"
-          content={`View the ${album?.title || "album"} gallery.`}
+          content={`View the ${
+            album?.title || "album"
+          } gallery by SaltandPeps. Explore stunning photography albums in Singapore.`}
         />
         <meta
           name="keywords"
-          content={`gallery, ${album?.title || "album"}, photos`}
+          content={`gallery, ${
+            album?.title || "album"
+          }, photos, photography, Singapore`}
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="canonical"
+          href={`https://www.saltandpeps.com/photography/${slug}`}
+        />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
         <div
@@ -84,7 +92,7 @@ export default function Home() {
           <div className="flex items-center">
             <Image
               src="/logo.svg"
-              alt="Site Logo"
+              alt="SaltandPeps Logo"
               width={200}
               height={100}
               priority
