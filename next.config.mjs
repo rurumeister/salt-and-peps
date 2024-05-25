@@ -4,6 +4,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "ap-northeast-1.graphassets.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "ap-northeast-1.cdn.hygraph.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
         hostname: "ap-south-1.graphassets.com",
         pathname: "**",
       },
@@ -11,5 +21,4 @@ const nextConfig = {
   },
 };
 
-//    domains: ["ap-south-1.graphassets.com"],
 export default nextConfig;

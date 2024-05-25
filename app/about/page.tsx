@@ -1,4 +1,7 @@
 "use client";
+import image1 from "@/public/about/01.jpg";
+import image2 from "@/public/about/02.jpg";
+import image3 from "@/public/about/03.jpg";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -7,6 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { OnlyAllSidebar } from "../components/Sidebars";
+
 const Footer = dynamic(() => import("../components/Footer"));
 
 export default function Home() {
@@ -107,7 +111,7 @@ export default function Home() {
                 </div>
               </div>
               <Image
-                src="/about/01.jpg"
+                src={image1}
                 alt="Picture of Peps"
                 width={400}
                 height={200}
@@ -118,7 +122,7 @@ export default function Home() {
             </div>
             <div className="relative flex gap-2">
               <Image
-                src="/about/03.jpg"
+                src={image3}
                 alt="Picture of Peps"
                 width={250}
                 height={250}
@@ -126,7 +130,7 @@ export default function Home() {
                 className="object-cover w-[250px] h-[250px] lg:w-[200px] lg:h-[200px] xl:w-[250px] xl:h-[250px]"
               />
               <Image
-                src="/about/02.jpg"
+                src={image2}
                 alt="Picture of Peps"
                 width={400}
                 height={150}
