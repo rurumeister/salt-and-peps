@@ -22,7 +22,7 @@ async function fetchAlbumData(title: string) {
     {
       photographyLists(stage: PUBLISHED, where: { title: "${title}" }) {
         id
-        images {
+        images (first:20) {
           fileName
           url
         }

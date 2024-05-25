@@ -45,6 +45,10 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="author" content="SaltandPeps" />
+        <meta
+          name="google-site-verification"
+          content="xVxh85h8MAid6JFbrKCSX5xv5THBc3xvMMINxi3NKzk"
+        />
         <link rel="canonical" href="https://www.saltandpeps.com" />
       </head>
       <body
