@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.saltandpeps.com
+
+# Sitemaps
+Sitemap: https://www.saltandpeps.com/sitemap.xml
