@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import {
   Cormorant_Garamond,
@@ -56,6 +57,7 @@ export default function RootLayout({
         className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cormorant_garamond.className}`}
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
