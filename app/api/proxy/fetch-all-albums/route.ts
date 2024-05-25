@@ -28,6 +28,7 @@ async function fetchAllAlbums() {
         }
         title
         type
+        highlight
       }
       modellingLists(stage: PUBLISHED) {
         id
@@ -37,6 +38,7 @@ async function fetchAllAlbums() {
         }
         title
         type
+        highlight
       }
     }
   `;

@@ -28,6 +28,7 @@ async function fetchAlbumData(title: string) {
         }
         title
         type
+        highlight
       }
     }
   `;

@@ -204,6 +204,10 @@ export const HomeMasonry = ({
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => [...prev, index]);
   };
+  // Highlighted images
+  (selectedCategory === "ModellingAll" ||
+    selectedCategory === "PhotographyAll") &&
+    (filteredImages = filteredImages.filter((img) => img.highlight === true));
 
   return (
     <div
