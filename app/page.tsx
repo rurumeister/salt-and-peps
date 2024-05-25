@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
-import { PhotoAlbum } from "./interfaces/album";
+import { PhotoAlbum, Portrait } from "./interfaces/album";
 import { useAllAlbums } from "./lib/useAllAlbums";
 const Footer = dynamic(() => import("./components/Footer"));
 
@@ -17,6 +17,8 @@ export default function Home() {
   const [togglePhotography, setTogglePhotography] = useState<boolean>(true);
   const [photoAlbums, setPhotoAlbums] = useState<PhotoAlbum[]>([]);
   const [modellingAlbums, setModellingAlbums] = useState<PhotoAlbum[]>([]);
+  const [portraitAlbums, setPortraitAlbums] = useState<Portrait[]>([]);
+  const [isPortrait, setIsPortrait] = useState<boolean>(false);
   const [modellingFilter, setModellingFilter] = useState<string[]>([]);
   const [filteredImages, setFilteredImages] = useState<PhotoAlbum[]>([]);
   const [modellingImages, setModellingImages] = useState<any>();
@@ -36,7 +38,7 @@ export default function Home() {
     if (allAlbums) {
       const photographyList = allAlbums.photographyLists || [];
       const modellingList = allAlbums.modellingLists || [];
-
+      const portraitList = allAlbums.portraitLists || [];
       const formattedPhotoData: PhotoAlbum[] = photographyList.map(
         (item: any) => ({
           title: item.title,
@@ -61,14 +63,31 @@ export default function Home() {
           highlight: item.highlight,
         })
       );
+      const formattedPortraitData: Portrait[] = portraitList.map(
+        (item: any) => ({
+          title: item.title,
+          image: item.image.url,
+        })
+      );
       setPhotoAlbums(formattedPhotoData);
       setModellingAlbums(formattedModellingData);
+      setPortraitAlbums(formattedPortraitData);
       setModellingFilter(formattedModellingData.map((album) => album.title));
     }
   }, [allAlbums]);
 
   useEffect(() => {
-    if (!!togglePhotography) {
+    filterImages();
+  }, [
+    togglePhotography,
+    selectedCategory,
+    photoAlbums,
+    modellingAlbums,
+    portraitAlbums,
+  ]);
+
+  const filterImages = () => {
+    if (togglePhotography) {
       const images =
         selectedCategory === "PhotographyAll"
           ? photoAlbums
@@ -86,9 +105,13 @@ export default function Home() {
                 album.title.toLowerCase() === selectedCategory.toLowerCase()
             );
       setFilteredImages(images);
-      selectedCategory != "ModellingAll" && setModellingImages(images[0]);
+      if (selectedCategory !== "ModellingAll") {
+        setModellingImages(images[0]);
+      } else {
+        setModellingImages(null);
+      }
     }
-  }, [togglePhotography, selectedCategory, photoAlbums, modellingAlbums]);
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
@@ -130,6 +153,7 @@ export default function Home() {
           />
         </div>
         <MainSidebar
+          setIsPortrait={setIsPortrait}
           setTogglePhotography={setTogglePhotography}
           isSidebarOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
@@ -138,8 +162,10 @@ export default function Home() {
           modellingFilter={modellingFilter}
         />
         <HomeMasonry
+          isPortrait={isPortrait}
           albumsLoading={albumsLoading}
           filteredImages={filteredImages}
+          portraitAlbums={portraitAlbums}
           modellingImages={modellingImages}
           togglePhotography={togglePhotography}
           selectedCategory={selectedCategory}

@@ -40,6 +40,13 @@ async function fetchAllAlbums() {
         type
         highlight
       }
+      portraitLists(stage: PUBLISHED) {
+        image {
+          id
+          url
+        }
+        title
+      }
     }
   `;
 

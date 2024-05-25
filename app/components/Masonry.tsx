@@ -3,7 +3,100 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
-import { PhotoAlbum } from "../interfaces/album";
+import { PhotoAlbum, Portrait } from "../interfaces/album";
+
+const NoAlbumsFound = () => {
+  return (
+    <div className="flex flex-col w-full self-center">
+      <p className="text-center text-lg">No albums found. Stay tuned!</p>
+    </div>
+  );
+};
+
+const PhotographyMasonry = ({
+  filteredImages,
+  loadedImages,
+  handleImageLoad,
+  togglePhotography,
+  handleCategoryChange,
+}: {
+  filteredImages: PhotoAlbum[];
+  loadedImages: number[];
+  handleImageLoad: (index: number) => void;
+  togglePhotography: boolean;
+  handleCategoryChange: (category: string) => void;
+}) => {
+  console.log("filteredImages in photoAlbums", filteredImages);
+  return filteredImages.map((img, index) => {
+    const firstImage = img.images[0];
+    return (
+      <div
+        key={index}
+        className={`relative masonry-item group ${
+          loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+        }`}
+      >
+        <Image
+          src={`${firstImage.url}`}
+          alt={img.title}
+          layout="responsive"
+          width={250}
+          height={250}
+          style={{ objectFit: "cover" }}
+          onLoad={() => handleImageLoad(index)}
+        />
+        {!!togglePhotography ? (
+          <Link
+            href={`${
+              togglePhotography === true
+                ? `photography/${img.title.toLowerCase().replace(/ /g, "-")}`
+                : `modelling/${img.title.toLowerCase().replace(/ /g, "-")}`
+            }`}
+          >
+            <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <p className="text-white text-sm cursor-pointer underline">
+                {img.type}
+              </p>
+              <p className="text-white text-lg cursor-pointer">{img.title}</p>
+              <p className="text-white text-xs cursor-pointer default-hover">
+                View more
+              </p>
+            </div>
+          </Link>
+        ) : (
+          <div
+            className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            onClick={() => handleCategoryChange(img.title)}
+          >
+            <p className="text-white text-sm cursor-pointer underline">
+              {img.type}
+            </p>
+            <p className="text-white text-lg cursor-pointer">{img.title}</p>
+            <p className="text-white text-xs cursor-pointer default-hover">
+              View more
+            </p>
+          </div>
+        )}
+        <style jsx>{`
+          .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 0.5em;
+            position: relative;
+          }
+
+          .opacity-in {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+          }
+
+          .opacity-out {
+            opacity: 0;
+          }
+        `}</style>
+      </div>
+    );
+  });
+};
 
 export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
@@ -181,14 +274,18 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
 };
 
 export const HomeMasonry = ({
+  isPortrait,
   filteredImages,
+  portraitAlbums,
   modellingImages,
   togglePhotography,
   selectedCategory,
   handleCategoryChange,
   albumsLoading,
 }: {
+  isPortrait: boolean;
   filteredImages: PhotoAlbum[];
+  portraitAlbums: Portrait[];
   modellingImages: PhotoAlbum;
   togglePhotography: boolean;
   selectedCategory: string;
@@ -208,7 +305,12 @@ export const HomeMasonry = ({
   (selectedCategory === "ModellingAll" ||
     selectedCategory === "PhotographyAll") &&
     (filteredImages = filteredImages.filter((img) => img.highlight === true));
-
+  console.log("portraitAlbumsInside HomeMasonry", portraitAlbums);
+  console.log("togglePhotography", togglePhotography);
+  console.log("isPortrait", isPortrait);
+  console.log("filteredImages", filteredImages);
+  console.log("selectedCategory", selectedCategory);
+  //if isPortrait is true, just return an image, else
   return (
     <div
       className={`lg:pl-5 w-full min-h-screen flex flex-col ${
@@ -232,80 +334,43 @@ export const HomeMasonry = ({
             wrapperClass=""
           />
         </div>
-      ) : filteredImages.length < 1 || modellingImages?.images?.length < 1 ? (
-        <div className="flex flex-col w-full self-center">
-          <p className="text-center text-lg">No albums found. Stay tuned!</p>
-        </div>
+      ) : (filteredImages.length < 1 || modellingImages?.images?.length < 1) &&
+        !isPortrait ? (
+        <NoAlbumsFound />
       ) : (
         <div className="masonry-grid">
-          {!togglePhotography &&
-          selectedCategory != "ModellingAll" &&
-          modellingImages?.images?.length > 0 ? (
+          {isPortrait === true ? (
+            portraitAlbums.map((img: any, index) => (
+              <div
+                key={index}
+                className={`relative masonry-item group ${
+                  loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+                }`}
+              >
+                <Image
+                  src={img.image}
+                  alt={img.title}
+                  layout="responsive"
+                  width={250}
+                  height={250}
+                  style={{ objectFit: "cover" }}
+                  onLoad={() => handleImageLoad(index)}
+                />
+              </div>
+            ))
+          ) : selectedCategory !== "ModellingAll" &&
+            modellingImages?.images?.length > 0 ? (
             <div>
               <ModellingMasonry album={modellingImages} />
             </div>
           ) : (
-            filteredImages.map((img, index) => {
-              const firstImage = img.images[0];
-              return (
-                <div
-                  key={index}
-                  className={`relative masonry-item group ${
-                    loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-                  }`}
-                >
-                  <Image
-                    src={`${firstImage.url}`}
-                    alt={img.title}
-                    layout="responsive"
-                    width={250}
-                    height={250}
-                    style={{ objectFit: "cover" }}
-                    onLoad={() => handleImageLoad(index)}
-                  />
-                  {!!togglePhotography ? (
-                    <Link
-                      href={`${
-                        togglePhotography === true
-                          ? `photography/${img.title
-                              .toLowerCase()
-                              .replace(/ /g, "-")}`
-                          : `modelling/${img.title
-                              .toLowerCase()
-                              .replace(/ /g, "-")}`
-                      }`}
-                    >
-                      <div className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <p className="text-white text-sm cursor-pointer underline">
-                          {img.type}
-                        </p>
-                        <p className="text-white text-lg cursor-pointer">
-                          {img.title}
-                        </p>
-                        <p className="text-white text-xs cursor-pointer default-hover">
-                          View more
-                        </p>
-                      </div>
-                    </Link>
-                  ) : (
-                    <div
-                      className="flex-col absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      onClick={() => handleCategoryChange(img.title)}
-                    >
-                      <p className="text-white text-sm cursor-pointer underline">
-                        {img.type}
-                      </p>
-                      <p className="text-white text-lg cursor-pointer">
-                        {img.title}
-                      </p>
-                      <p className="text-white text-xs cursor-pointer default-hover">
-                        View more
-                      </p>
-                    </div>
-                  )}
-                </div>
-              );
-            })
+            <PhotographyMasonry
+              filteredImages={filteredImages}
+              loadedImages={loadedImages}
+              handleImageLoad={handleImageLoad}
+              togglePhotography={togglePhotography}
+              handleCategoryChange={handleCategoryChange}
+            />
           )}
         </div>
       )}

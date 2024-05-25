@@ -4,6 +4,7 @@ import { photographyFilter } from "../lists";
 
 type MainSidebarProps = {
   isSidebarOpen: boolean;
+  setIsPortrait: (value: boolean) => void;
   setTogglePhotography: (value: boolean) => void;
   toggleSidebar: () => void;
   selectedCategory: string;
@@ -13,6 +14,7 @@ type MainSidebarProps = {
 
 export const MainSidebar = ({
   isSidebarOpen,
+  setIsPortrait,
   setTogglePhotography,
   toggleSidebar,
   selectedCategory,
@@ -57,6 +59,9 @@ export const MainSidebar = ({
                 selectedCategory === category && "font-bold"
               }`}
               onClick={() => {
+                category === "Portraits"
+                  ? setIsPortrait(true)
+                  : setIsPortrait(false);
                 handleCategoryChange(category);
                 toggleSidebar();
                 setTogglePhotography(true);

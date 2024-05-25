@@ -20,3 +20,8 @@ export interface AlbumList {
   photographyLists: PhotoAlbum[];
   modellingLists: PhotoAlbum[];
 }
+
+export interface Portrait {
+  title: string;
+  image: string;
+}
