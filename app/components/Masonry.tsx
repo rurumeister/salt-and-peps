@@ -26,7 +26,6 @@ const PhotographyMasonry = ({
   togglePhotography: boolean;
   handleCategoryChange: (category: string) => void;
 }) => {
-  console.log("filteredImages in photoAlbums", filteredImages);
   return filteredImages.map((img, index) => {
     const firstImage = img.images[0];
     return (
@@ -305,12 +304,7 @@ export const HomeMasonry = ({
   (selectedCategory === "ModellingAll" ||
     selectedCategory === "PhotographyAll") &&
     (filteredImages = filteredImages.filter((img) => img.highlight === true));
-  console.log("portraitAlbumsInside HomeMasonry", portraitAlbums);
-  console.log("togglePhotography", togglePhotography);
-  console.log("isPortrait", isPortrait);
-  console.log("filteredImages", filteredImages);
-  console.log("selectedCategory", selectedCategory);
-  //if isPortrait is true, just return an image, else
+
   return (
     <div
       className={`lg:pl-5 w-full min-h-screen flex flex-col ${
@@ -376,7 +370,7 @@ export const HomeMasonry = ({
       )}
       <style jsx>{`
         .masonry-grid {
-          ${filteredImages.length < 5 ? "column-count: 2;" : "column-count: 4;"}
+          ${filteredImages.length < 5 ? "column-count: 2;" : "column-count: 3;"}
           column-gap: 0.5em;
         }
 
