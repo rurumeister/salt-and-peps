@@ -7,6 +7,8 @@ import {
   Inter,
   Spectral,
 } from "next/font/google";
+import React from "react";
+import ClientProviders from "./ClientProviders";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -57,9 +59,11 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cormorant_garamond.className}`}
       >
-        {children}
-        <Analytics />
-        <SpeedInsights />
+        <ClientProviders>
+          {children}
+          <Analytics />
+          <SpeedInsights />
+        </ClientProviders>
       </body>
     </html>
   );

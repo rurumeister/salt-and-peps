@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
 import { PhotoAlbum } from "./interfaces/album";
+import { useAllAlbums } from "./lib/useAllAlbums";
 const Footer = dynamic(() => import("./components/Footer"));
 
 export default function Home() {
@@ -19,56 +20,52 @@ export default function Home() {
   const [modellingFilter, setModellingFilter] = useState<string[]>([]);
   const [filteredImages, setFilteredImages] = useState<PhotoAlbum[]>([]);
   const [modellingImages, setModellingImages] = useState<any>();
+
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
-  const fetchAllAlbums = async () => {
-    const response = await fetch("/api/proxy/fetch-all-albums");
-    if (!response.ok) {
-      throw new Error(`Error fetching album data: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data;
-  };
+
+  const {
+    data: allAlbums,
+    isLoading: albumsLoading,
+    error: allAlbumsError,
+  } = useAllAlbums();
 
   useEffect(() => {
-    fetchAllAlbums()
-      .then((data: any) => {
-        const photographyList = data.photographyLists
-          ? data.photographyLists
-          : [];
-        const modellingList = data?.modellingLists ? data.modellingLists : [];
-        const formattedPhotoData: PhotoAlbum[] = photographyList.map(
-          (item: any) => ({
-            title: item.title,
-            type: item.type,
-            images: item.images.map((image: any) => ({
-              url: image.url,
-              title: image.fileName,
-              description: image.fileName,
-            })),
-            highlight: item.highlight,
-          })
-        );
-        const formattedModellingData: PhotoAlbum[] = modellingList.map(
-          (item: any) => ({
-            title: item.title,
-            type: item.type,
-            images: item.images.map((image: any) => ({
-              url: image.url,
-              title: image.fileName,
-              description: image.fileName,
-            })),
-            highlight: item.highlight,
-          })
-        );
-        setPhotoAlbums(formattedPhotoData);
-        setModellingAlbums(formattedModellingData);
-        setModellingFilter(formattedModellingData.map((album) => album.title));
-      })
-      .catch((err: string) => console.error(err));
-  }, []);
+    if (allAlbums) {
+      const photographyList = allAlbums.photographyLists || [];
+      const modellingList = allAlbums.modellingLists || [];
+
+      const formattedPhotoData: PhotoAlbum[] = photographyList.map(
+        (item: any) => ({
+          title: item.title,
+          type: item.type,
+          images: item.images.map((image: any) => ({
+            url: image.url,
+            title: image.fileName,
+            description: image.fileName,
+          })),
+          highlight: item.highlight,
+        })
+      );
+      const formattedModellingData: PhotoAlbum[] = modellingList.map(
+        (item: any) => ({
+          title: item.title,
+          type: item.type,
+          images: item.images.map((image: any) => ({
+            url: image.url,
+            title: image.fileName,
+            description: image.fileName,
+          })),
+          highlight: item.highlight,
+        })
+      );
+      setPhotoAlbums(formattedPhotoData);
+      setModellingAlbums(formattedModellingData);
+      setModellingFilter(formattedModellingData.map((album) => album.title));
+    }
+  }, [allAlbums]);
 
   useEffect(() => {
     if (!!togglePhotography) {
@@ -141,6 +138,7 @@ export default function Home() {
           modellingFilter={modellingFilter}
         />
         <HomeMasonry
+          albumsLoading={albumsLoading}
           filteredImages={filteredImages}
           modellingImages={modellingImages}
           togglePhotography={togglePhotography}

@@ -186,12 +186,14 @@ export const HomeMasonry = ({
   togglePhotography,
   selectedCategory,
   handleCategoryChange,
+  albumsLoading,
 }: {
   filteredImages: PhotoAlbum[];
   modellingImages: PhotoAlbum;
   togglePhotography: boolean;
   selectedCategory: string;
   handleCategoryChange: (category: string) => void;
+  albumsLoading: boolean;
 }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
 
@@ -211,7 +213,7 @@ export const HomeMasonry = ({
           : ""
       }`}
     >
-      {filteredImages.length < 1 || modellingImages?.images?.length < 1 ? (
+      {albumsLoading ? (
         <div className="flex flex-col w-full self-center">
           <TailSpin
             visible={true}
@@ -226,13 +228,17 @@ export const HomeMasonry = ({
             wrapperClass=""
           />
         </div>
+      ) : filteredImages.length < 1 || modellingImages?.images?.length < 1 ? (
+        <div className="flex flex-col w-full self-center">
+          <p className="text-center text-lg">No albums found. Stay tuned!</p>
+        </div>
       ) : (
         <div className="masonry-grid">
           {!togglePhotography &&
           selectedCategory != "ModellingAll" &&
           modellingImages?.images?.length > 0 ? (
             <div>
-              <ModellingMasonry album={modellingImages as PhotoAlbum} />
+              <ModellingMasonry album={modellingImages} />
             </div>
           ) : (
             filteredImages.map((img, index) => {

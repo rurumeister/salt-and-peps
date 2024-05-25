@@ -3,17 +3,19 @@ import { SlugMasonry } from "@/app/components/Masonry";
 import { OnlyAllSidebar } from "@/app/components/Sidebars";
 import { transformSlugToTitle } from "@/app/helpers";
 import { PhotoAlbum, SlugAlbum } from "@/app/interfaces/album";
+import { useAlbumData } from "@/app/lib/useAlbumData";
 import Hamburger from "hamburger-react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { TailSpin } from "react-loader-spinner";
+
 const Footer = dynamic(() => import("@/app/components/Footer"));
 
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [album, setAlbum] = useState<SlugAlbum>();
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const pathname = usePathname();
@@ -22,44 +24,27 @@ export default function Home() {
   const slug = url.split("/").pop();
 
   const title = slug ? transformSlugToTitle(slug) : "";
-
-  const fetchAlbumData = async (title: string) => {
-    const response = await fetch(
-      `/api/proxy/fetch-album-data/?title=${encodeURIComponent(title)}`
-    );
-    if (!response.ok) {
-      throw new Error(`Error fetching album data: ${response.statusText}`);
-    }
-    const data = await response.json();
-    return data;
-  };
+  const {
+    data: albumData,
+    isLoading: albumsLoading,
+    error: allAlbumsError,
+  } = useAlbumData(title);
 
   useEffect(() => {
-    if (title) {
-      fetchAlbumData(title)
-        .then((data) => {
-          if (data.images.length > 0) {
-            const formattedAlbum: PhotoAlbum = {
-              title: data.title,
-              type: data.type,
-              images: data.images.map((image: any) => ({
-                url: image.url,
-                title: image.filename,
-              })),
-            };
-            setAlbum(formattedAlbum);
-            setLoading(false);
-          } else {
-            setAlbum(undefined);
-            setLoading(false);
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          setLoading(false);
-        });
+    if (albumData && albumData.images.length > 0) {
+      const formattedAlbum: PhotoAlbum = {
+        title: albumData.title,
+        type: albumData.type,
+        images: albumData.images.map((image: any) => ({
+          url: image.url,
+          title: image.filename,
+        })),
+      };
+      setAlbum(formattedAlbum);
+    } else {
+      setAlbum(undefined);
     }
-  }, [title]);
+  }, [albumData]);
 
   return (
     <>
@@ -111,8 +96,31 @@ export default function Home() {
             isSidebarOpen={isSidebarOpen}
             currentPage={pathname}
           />
-          <div className="min-h-screen w-full relative">
-            {!loading && <SlugMasonry album={album as PhotoAlbum} />}
+          <div className="min-h-screen w-full relative flex">
+            {!albumsLoading && album && (
+              <SlugMasonry album={album as PhotoAlbum} />
+            )}
+            {albumsLoading && (
+              <div className="flex flex-col w-full self-center">
+                <TailSpin
+                  visible={true}
+                  height="60"
+                  width="60"
+                  color="#766a62"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                  wrapperStyle={{
+                    alignSelf: "center",
+                  }}
+                  wrapperClass=""
+                />
+              </div>
+            )}
+            {allAlbumsError && (
+              <div className="flex flex-col w-full self-center">
+                <p className="text-center text-lg">Error loading album</p>
+              </div>
+            )}
           </div>
         </div>
         <Footer />

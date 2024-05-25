@@ -139,8 +139,8 @@ export const OnlyAllSidebar = ({
           priority
           className="hidden lg:block"
         />
-        <h2 className="ml-12 opacity-20 cursor-not-allowed">Photography</h2>
-        <div className="lg:ml-16 flex flex-col">
+        <h2 className="opacity-20 cursor-not-allowed lg:ml-12">Photography</h2>
+        <div className="ml-12 lg:ml-16 flex flex-col">
           <button
             className={`default-hover w-40 text-left opacity-20 cursor-not-allowed`}
           >
@@ -165,10 +165,12 @@ export const OnlyAllSidebar = ({
           ))}
         </div>
         <div className="flex flex-col pt-8 opacity-20">
-          <button className="text-left ml-12 cursor-not-allowed">
+          <button className="text-left lg:ml-12 cursor-not-allowed">
             Modelling
           </button>
-          <button className="text-left lg:ml-16 cursor-not-allowed">All</button>
+          <button className="text-left ml-12 lg:ml-16 w-40 cursor-not-allowed">
+            All
+          </button>
         </div>
       </div>
       <div>
@@ -176,7 +178,7 @@ export const OnlyAllSidebar = ({
           <button className="about-button ml-12 default-hover">Back</button>
         </Link>
       </div>
-      <div className="ml-12 pb-24 lg:pb-8 flex flex-col">
+      <div className="lg:ml-12 pb-24 lg:pb-8 flex flex-col">
         <button className="about-button default-hover">
           <Link href="/about">
             <p className={`${currentPage === "/about" && "font-bold"} `}>
