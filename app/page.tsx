@@ -96,20 +96,18 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between px-10 lg:pl-20">
       <Head>
-        <title>
-          SaltandPeps Photo Gallery - Professional Photography in Singapore
-        </title>
+        <title>SaltandPeps - Photography, Pre-Wedding, Content Creation</title>
         <meta
           name="description"
-          content="Explore the SaltandPeps photo gallery featuring a collection of stunning photographs categorized for easy browsing. Discover our professional photography services in Singapore."
+          content="SaltandPeps offers professional photography and content creation services in Singapore. Specializing in pre-wedding and fashion photography."
         />
         <meta
           name="keywords"
-          content="photo gallery, images, categories, photography, Singapore"
+          content="photography, pre-wedding, content creation, Singapore"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="canonical" href="https://www.saltandpeps.com/gallery" />
+        <link rel="canonical" href="https://www.saltandpeps.com" />
       </Head>
+
       <div
         className={`sidebar-container max-w-screen-2xl ${
           isSidebarOpen ? "open" : "closed"
