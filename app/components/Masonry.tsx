@@ -43,6 +43,8 @@ const PhotographyMasonry = ({
           height={250}
           style={{ objectFit: "cover" }}
           onLoad={() => handleImageLoad(index)}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
         />
         {!!togglePhotography ? (
           <Link
@@ -120,6 +122,8 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
             loadedImages.includes(0) ? "opacity-in" : "opacity-out"
           }`}
           onLoad={() => handleImageLoad(0)}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
         />
         <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
           <p className="font-bold text-white">{album?.title}</p>
@@ -141,6 +145,8 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
               height={250}
               style={{ objectFit: "cover" }}
               onLoad={() => handleImageLoad(index + 1)}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
             />
           </div>
         ))}
@@ -204,6 +210,8 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
             loadedImages.includes(0) ? "opacity-in" : "opacity-out"
           }`}
           onLoad={() => handleImageLoad(0)}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
         />
         <div className="absolute bottom-0 p-4 z-10 backdrop-blur-sm bg-[#766a62] bg-opacity-50">
           <p className="font-bold text-white">{album?.title}</p>
@@ -225,6 +233,8 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
               height={250}
               style={{ objectFit: "cover" }}
               onLoad={() => handleImageLoad(index + 1)}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
             />
           </div>
         ))}
@@ -349,6 +359,8 @@ export const HomeMasonry = ({
                   height={250}
                   style={{ objectFit: "cover" }}
                   onLoad={() => handleImageLoad(index)}
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
                 />
               </div>
             ))

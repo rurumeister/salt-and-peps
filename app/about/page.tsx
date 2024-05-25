@@ -65,10 +65,9 @@ export default function Home() {
               <div className="flex flex-col justify-end pb-4">
                 <div className="flex flex-col gap-4">
                   <h2
-                    className="font-semibold text-5xl pb-4 underline underline-offset-4"
+                    className="font-sans italic font-semibold text-5xl pb-4 underline underline-offset-4"
                     style={{
                       color: "#C5AB97",
-                      fontFamily: "Garamond",
                     }}
                   >
                     Peps HW
@@ -83,30 +82,102 @@ export default function Home() {
                     style={{ height: "auto" }}
                   />
                   <p
-                    className="border-b border-gray-900/10 pb-4"
+                    className="inconsolata border-b border-gray-900/10 pb-4"
                     style={{
-                      fontFamily: "Garamond",
-                      fontSize: "14px",
+                      fontFamily: "__Inconsolata_f98d14",
+                      fontWeight: "300",
+                      fontSize: "16px",
                     }}
                   >
                     A natural born creative, Peps specialises in a number of
-                    things from Portraits, Fashion, Food, Events, Pre-Wedding,
-                    and even Studio. With 9 years of experience in photography,
-                    she has also extended her flair for creativity into her role
-                    as a Digital Content Creator, where she is known for
+                    things from{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Portraits
+                    </span>
+                    ,{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Fashion
+                    </span>
+                    ,{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Food
+                    </span>
+                    ,{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Events
+                    </span>
+                    ,{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Pre-Wedding
+                    </span>
+                    , and even{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Studio
+                    </span>
+                    . With 9 years of experience in{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      photography
+                    </span>
+                    , she has also extended her flair for creativity into her
+                    role as a Digital Content Creator, where she is known for
                     conceptualising and creating visuals that aim to provide
                     successful digital campaigns, while adding a unique,
                     personal aesthetic spin for her clientele.
                   </p>
                   <p
                     style={{
-                      fontFamily: "Garamond",
-                      fontSize: "14px",
+                      fontFamily: "__Inconsolata_f98d14",
+                      fontWeight: "300",
+                      fontSize: "16px",
                     }}
                   >
                     Despite only recently entering the industry, she has humbly
                     worked on several notable collaborations with global brands
-                    like Love Bonito, New Balance and UNIQLO.
+                    like{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      Love Bonito, New Balance
+                    </span>{" "}
+                    and{" "}
+                    <span
+                      style={{
+                        fontWeight: "600",
+                      }}
+                    >
+                      UNIQLO
+                    </span>
+                    .
                   </p>
                 </div>
               </div>
@@ -147,20 +218,43 @@ export default function Home() {
               <div className="hidden md:flex flex-col gap-4 pl-2 pt-4">
                 <p
                   style={{
-                    fontFamily: "Garamond",
-                    fontSize: "14px",
+                    fontFamily: "__Inconsolata_f98d14",
+                    fontWeight: "300",
+                    fontSize: "16px",
                   }}
                 >
-                  Peps also models on a freelance basis – having worked with
-                  Limited Edt on an International Women&apos;s Day campaign,
-                  AforArcade&apos;s 9th Anniversary &quot;Flashback
-                  Collection&quot; catalogue as well as Love Bonito&apos;s 13th
-                  Anniversary campaign.
+                  Peps also models on a freelance basis – having worked with{" "}
+                  <span
+                    style={{
+                      fontWeight: "600",
+                    }}
+                  >
+                    Limited Edt{" "}
+                  </span>
+                  on an International Women&apos;s Day campaign,{" "}
+                  <span
+                    style={{
+                      fontWeight: "600",
+                    }}
+                  >
+                    AforArcade&apos;s
+                  </span>{" "}
+                  9th Anniversary &quot;Flashback Collection&quot; catalogue as
+                  well as{" "}
+                  <span
+                    style={{
+                      fontWeight: "600",
+                    }}
+                  >
+                    Love Bonito&apos;s
+                  </span>{" "}
+                  13th Anniversary campaign.
                 </p>
                 <p
                   style={{
-                    fontFamily: "Garamond",
-                    fontSize: "14px",
+                    fontFamily: "__Inconsolata_f98d14",
+                    fontWeight: "300",
+                    fontSize: "16px",
                   }}
                 >
                   Let’s bring your ideas to life!
@@ -180,20 +274,43 @@ export default function Home() {
             <div className="flex md:hidden flex-col gap-4 pl-2 pt-2">
               <p
                 style={{
-                  fontFamily: "Garamond",
-                  fontSize: "14px",
+                  fontFamily: "__Inconsolata_f98d14",
+                  fontWeight: "300",
+                  fontSize: "16px",
                 }}
               >
-                Peps also models on a freelance basis – having worked with
-                Limited Edt on an International Women&apos;s Day campaign,
-                AforArcade&apos;s 9th Anniversary &quot;Flashback
-                Collection&quot; catalogue as well as Love Bonito&apos;s 13th
-                Anniversary campaign.
+                Peps also models on a freelance basis – having worked with{" "}
+                <span
+                  style={{
+                    fontWeight: "600",
+                  }}
+                >
+                  Limited Edt{" "}
+                </span>
+                on an International Women&apos;s Day campaign,{" "}
+                <span
+                  style={{
+                    fontWeight: "600",
+                  }}
+                >
+                  AforArcade&apos;s
+                </span>{" "}
+                9th Anniversary &quot;Flashback Collection&quot; catalogue as
+                well as{" "}
+                <span
+                  style={{
+                    fontWeight: "600",
+                  }}
+                >
+                  Love Bonito&apos;s
+                </span>{" "}
+                13th Anniversary campaign.
               </p>
               <p
                 style={{
-                  fontFamily: "Garamond",
-                  fontSize: "14px",
+                  fontFamily: "__Inconsolata_f98d14",
+                  fontWeight: "300",
+                  fontSize: "16px",
                 }}
               >
                 Let&apos;s bring your ideas to life!

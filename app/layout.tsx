@@ -1,26 +1,20 @@
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import {
-  Cormorant_Garamond,
-  Inconsolata,
-  Inter,
-  Spectral,
-} from "next/font/google";
+import { Cutive, Inconsolata, Inter, Spectral } from "next/font/google";
 import React from "react";
 import ClientProviders from "./ClientProviders";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-const cormorant_garamond = Cormorant_Garamond({
+const cutive = Cutive({
   weight: "400",
-  variable: "--font-cormorant-garamond",
+  variable: "--font-cutive",
   display: "swap",
   subsets: ["latin"],
 });
-
 const inconsolata = Inconsolata({
-  weight: "200",
+  weight: ["200", "500", "600"],
   variable: "--font-inconsolata",
   display: "swap",
   subsets: ["latin"],
@@ -57,7 +51,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon-dark-32x32.png" />
       </head>
       <body
-        className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cormorant_garamond.className}`}
+        className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cutive.className}`}
       >
         <ClientProviders>
           {children}
