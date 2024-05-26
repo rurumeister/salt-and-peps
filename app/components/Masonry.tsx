@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
 import { PhotoAlbum, Portrait } from "../interfaces/album";
 
-const NoAlbumsFound = () => {
+const NoAlbumsFound = ({ category }: { category: string }) => {
   return (
     <div className="flex flex-col w-full self-center">
-      <p className="text-center text-lg">No albums found. Stay tuned!</p>
+      <p className="text-center text-md">{`No images found in the ${category.toLowerCase()} category. Stay tuned!`}</p>
     </div>
   );
 };
@@ -99,7 +99,13 @@ const PhotographyMasonry = ({
   });
 };
 
-export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
+export const SlugMasonry = ({
+  album,
+  url,
+}: {
+  album: PhotoAlbum;
+  url?: string;
+}) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   useEffect(() => {
     setLoadedImages([]);
@@ -111,6 +117,7 @@ export const SlugMasonry = ({ album }: { album: PhotoAlbum }) => {
 
   return (
     <div className="min-h-screen w-full relative">
+      <h2 className="block lg:hidden">{url}</h2>
       <div className="relative w-full h-screen">
         <Image
           src={`${album?.images?.[0].url}`}
@@ -311,26 +318,40 @@ export const HomeMasonry = ({
     setLoadedImages((prev) => [...prev, index]);
   };
 
-  const renderPortrait = () =>
-    portraitAlbums.map((img: any, index) => (
-      <div
-        key={index}
-        className={`relative masonry-item group ${
-          loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-        }`}
-      >
-        <Image
-          src={img.image}
-          alt={img.title}
-          layout="responsive"
-          width={250}
-          height={250}
-          style={{ objectFit: "cover" }}
-          onLoad={() => handleImageLoad(index)}
-          placeholder="blur"
-          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
-        />{" "}
+  const renderPortrait = () => {
+    return (
+      <div>
+        <h2 className="block lg:hidden">Portraits.</h2>
+        <div className="masonry-grid">
+          {portraitAlbums.map((img: any, index) => (
+            <div
+              key={index}
+              className={`relative masonry-item group ${
+                loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+              }`}
+            >
+              <Image
+                src={img.image}
+                alt={img.title}
+                layout="responsive"
+                width={250}
+                height={250}
+                style={{ objectFit: "cover" }}
+                onLoad={() => handleImageLoad(index)}
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
+              />
+            </div>
+          ))}
+        </div>
         <style jsx>{`
+          .masonry-grid {
+            ${filteredImages.length < 5
+              ? "column-count: 2;"
+              : "column-count: 3;"}
+            column-gap: 0.5em;
+          }
+
           .opacity-in {
             opacity: 1;
             transition: opacity 0.5s ease-in-out;
@@ -339,9 +360,22 @@ export const HomeMasonry = ({
           .opacity-out {
             opacity: 0;
           }
+
+          @media (max-width: 1024px) {
+            .masonry-grid {
+              column-count: 2;
+            }
+          }
+
+          @media (max-width: 768px) {
+            .masonry-grid {
+              column-count: 2;
+            }
+          }
         `}</style>
       </div>
-    ));
+    );
+  };
 
   const renderMasonryGrid = () => (
     <div className="render-parent">
@@ -395,7 +429,14 @@ export const HomeMasonry = ({
       `}</style>
     </div>
   );
-
+  let category = selectedCategory;
+  if (category === "PhotographyAll") {
+    category = "All Photography";
+  } else if (category === "ModellingAll") {
+    category = "All Modelling";
+  } else {
+    category = selectedCategory;
+  }
   return (
     <div
       className={`lg:pl-5 w-full min-h-screen flex flex-col ${
@@ -421,11 +462,14 @@ export const HomeMasonry = ({
         </div>
       ) : (filteredImages.length < 1 || modellingImages?.images?.length < 1) &&
         !isPortrait ? (
-        <NoAlbumsFound />
+        <NoAlbumsFound category={category} />
       ) : isPortrait ? (
-        <div className="masonry-grid">{renderPortrait()}</div>
+        renderPortrait()
       ) : (
-        renderMasonryGrid()
+        <div>
+          <h2 className="block lg:hidden">{category}.</h2>
+          {renderMasonryGrid()}
+        </div>
       )}
     </div>
   );

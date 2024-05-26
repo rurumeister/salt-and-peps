@@ -22,7 +22,7 @@ export default function Home() {
   const searchParams = useSearchParams();
   const url = `${pathname}${searchParams}`;
   const slug = url.split("/").pop();
-
+  const cleanedUrl = url.substring(1);
   const title = slug ? transformSlugToTitle(slug) : "";
   const {
     data: albumData,
@@ -98,7 +98,7 @@ export default function Home() {
           />
           <div className="min-h-screen w-full relative flex">
             {!albumsLoading && album && (
-              <SlugMasonry album={album as PhotoAlbum} />
+              <SlugMasonry album={album as PhotoAlbum} url={title} />
             )}
             {albumsLoading && (
               <div className="flex flex-col w-full self-center">
@@ -118,7 +118,7 @@ export default function Home() {
             )}
             {allAlbumsError && (
               <div className="flex flex-col w-full self-center">
-                <p className="text-center text-lg">Error loading album</p>
+                <p className="text-center text-lg">Error loading album.</p>
               </div>
             )}
           </div>
