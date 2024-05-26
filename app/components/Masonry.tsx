@@ -310,74 +310,54 @@ export const HomeMasonry = ({
   const handleImageLoad = (index: number) => {
     setLoadedImages((prev) => [...prev, index]);
   };
-  // Highlighted images
-  (selectedCategory === "ModellingAll" ||
-    selectedCategory === "PhotographyAll") &&
-    (filteredImages = filteredImages.filter((img) => img.highlight === true));
 
-  return (
-    <div
-      className={`lg:pl-5 w-full min-h-screen flex flex-col ${
-        filteredImages.length < 1 || modellingImages?.images?.length < 1
-          ? "justify-center"
-          : ""
-      }`}
-    >
-      {albumsLoading ? (
-        <div className="flex flex-col w-full self-center">
-          <TailSpin
-            visible={true}
-            height="60"
-            width="60"
-            color="#766a62"
-            ariaLabel="tail-spin-loading"
-            radius="1"
-            wrapperStyle={{
-              alignSelf: "center",
-            }}
-            wrapperClass=""
-          />
-        </div>
-      ) : (filteredImages.length < 1 || modellingImages?.images?.length < 1) &&
-        !isPortrait ? (
-        <NoAlbumsFound />
+  const renderPortrait = () =>
+    portraitAlbums.map((img: any, index) => (
+      <div
+        key={index}
+        className={`relative masonry-item group ${
+          loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+        }`}
+      >
+        <Image
+          src={img.image}
+          alt={img.title}
+          layout="responsive"
+          width={250}
+          height={250}
+          style={{ objectFit: "cover" }}
+          onLoad={() => handleImageLoad(index)}
+          placeholder="blur"
+          blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
+        />{" "}
+        <style jsx>{`
+          .opacity-in {
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+          }
+
+          .opacity-out {
+            opacity: 0;
+          }
+        `}</style>
+      </div>
+    ));
+
+  const renderMasonryGrid = () => (
+    <div className="render-parent">
+      {!togglePhotography &&
+      selectedCategory !== "ModellingAll" &&
+      modellingImages?.images?.length > 0 ? (
+        <ModellingMasonry album={modellingImages} />
       ) : (
         <div className="masonry-grid">
-          {isPortrait === true ? (
-            portraitAlbums.map((img: any, index) => (
-              <div
-                key={index}
-                className={`relative masonry-item group ${
-                  loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-                }`}
-              >
-                <Image
-                  src={img.image}
-                  alt={img.title}
-                  layout="responsive"
-                  width={250}
-                  height={250}
-                  style={{ objectFit: "cover" }}
-                  onLoad={() => handleImageLoad(index)}
-                  placeholder="blur"
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
-                />
-              </div>
-            ))
-          ) : selectedCategory !== "ModellingAll" &&
-            modellingImages?.images?.length > 0 ? (
-            <div>
-              <ModellingMasonry album={modellingImages} />
-            </div>
-          ) : (
-            <PhotographyMasonry
-              filteredImages={filteredImages}
-              loadedImages={loadedImages}
-              handleImageLoad={handleImageLoad}
-              togglePhotography={togglePhotography}
-              handleCategoryChange={handleCategoryChange}
-            />
-          )}
+          <PhotographyMasonry
+            filteredImages={filteredImages}
+            loadedImages={loadedImages}
+            handleImageLoad={handleImageLoad}
+            togglePhotography={togglePhotography}
+            handleCategoryChange={handleCategoryChange}
+          />
         </div>
       )}
       <style jsx>{`
@@ -413,6 +393,40 @@ export const HomeMasonry = ({
           }
         }
       `}</style>
+    </div>
+  );
+
+  return (
+    <div
+      className={`lg:pl-5 w-full min-h-screen flex flex-col ${
+        filteredImages.length < 1 || modellingImages?.images?.length < 1
+          ? "justify-center"
+          : ""
+      }`}
+    >
+      {albumsLoading ? (
+        <div className="flex flex-col w-full self-center">
+          <TailSpin
+            visible={true}
+            height="60"
+            width="60"
+            color="#766a62"
+            ariaLabel="tail-spin-loading"
+            radius="1"
+            wrapperStyle={{
+              alignSelf: "center",
+            }}
+            wrapperClass=""
+          />
+        </div>
+      ) : (filteredImages.length < 1 || modellingImages?.images?.length < 1) &&
+        !isPortrait ? (
+        <NoAlbumsFound />
+      ) : isPortrait ? (
+        <div className="masonry-grid">{renderPortrait()}</div>
+      ) : (
+        renderMasonryGrid()
+      )}
     </div>
   );
 };

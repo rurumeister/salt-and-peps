@@ -22,7 +22,7 @@ async function fetchAllAlbums() {
     {
       photographyLists(stage: PUBLISHED) {
         id
-        images(first: 20) {
+        images(first: 1) {
           fileName
           url
         }
@@ -32,7 +32,7 @@ async function fetchAllAlbums() {
       }
       modellingLists(stage: PUBLISHED) {
         id
-        images(first: 20) {
+        images {
           fileName
           url
         }
