@@ -90,7 +90,7 @@ export default function Home() {
     if (togglePhotography) {
       const images =
         selectedCategory === "PhotographyAll"
-          ? photoAlbums
+          ? photoAlbums.filter((album) => album.highlight === true)
           : photoAlbums.filter(
               (album) =>
                 album.type.toLowerCase() === selectedCategory.toLowerCase()
