@@ -72,66 +72,6 @@ export default function RootLayout({
         />
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
-
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            url: "https://www.saltandpeps.com",
-            potentialAction: {
-              "@type": "SearchAction",
-              target:
-                "https://www.saltandpeps.com/search?q={search_term_string}",
-              "query-input": "required name=search_term_string",
-            },
-          })}
-        </script>
-
-        {/* <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "SaltandPeps",
-            url: "https://www.saltandpeps.com",
-            logo: "https://www.saltandpeps.com/logo.png",
-            sameAs: [
-              "https://www.facebook.com/saltandpeps",
-              "https://www.instagram.com/saltandpeps",
-            ],
-            contactPoint: {
-              "@type": "ContactPoint",
-              telephone: "+1-800-555-1212",
-              contactType: "Customer Service",
-            },
-          })}
-        </script> */}
-
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.saltandpeps.com",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "About",
-                item: "https://www.saltandpeps.com/about",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: "Contact",
-                item: "https://www.saltandpeps.com/contact",
-              },
-            ],
-          })}
-        </script>
       </head>
       <body
         className={`${inter.className} ${spectral.variable} ${inconsolata.className} ${cutive.className}`}
