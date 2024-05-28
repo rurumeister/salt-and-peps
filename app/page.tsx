@@ -49,6 +49,7 @@ export default function Home() {
             description: image.fileName,
           })),
           highlight: item.highlight,
+          isPortrait: item.isPortrait,
         })
       );
       const formattedModellingData: PhotoAlbum[] = modellingList.map(
@@ -78,6 +79,8 @@ export default function Home() {
 
   useEffect(() => {
     filterImages();
+    console.log("filteredImages", filteredImages);
+    console.log("photoAlbums", photoAlbums);
   }, [
     togglePhotography,
     selectedCategory,

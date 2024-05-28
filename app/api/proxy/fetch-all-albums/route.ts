@@ -29,6 +29,7 @@ async function fetchAllAlbums() {
         title
         type
         highlight
+        isPortrait
       }
       modellingLists(stage: PUBLISHED) {
         id

@@ -12,7 +12,7 @@ const NoAlbumsFound = ({ category }: { category: string }) => {
     </div>
   );
 };
-
+// const isPortrait = true;
 const PhotographyMasonry = ({
   filteredImages,
   loadedImages,
@@ -26,21 +26,26 @@ const PhotographyMasonry = ({
   togglePhotography: boolean;
   handleCategoryChange: (category: string) => void;
 }) => {
+  console.log("filteredImages", filteredImages);
   return filteredImages.map((img, index) => {
     const firstImage = img.images[0];
+    console.log(img.isPortrait);
     return (
       <div
         key={index}
         className={`relative masonry-item group ${
-          loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-        }`}
+          img.isPortrait ? "h-[100vh] md:h-[60vh]" : "h-[50vh] md:h-[25vh]"
+        } ${loadedImages.includes(index) ? "opacity-in" : "opacity-out"}`}
       >
         <Image
           src={`${firstImage.url}`}
           alt={img.title}
-          layout="responsive"
-          width={250}
-          height={250}
+          // layout="responsive"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          fill
+          className="relative"
+          // width={250}
+          // height={250}
           style={{ objectFit: "cover" }}
           onLoad={() => handleImageLoad(index)}
           placeholder="blur"
@@ -147,7 +152,7 @@ export const SlugMasonry = ({
             <Image
               src={`${img.url}`}
               alt={img.title || "Masonry Image"}
-              layout="responsive"
+              // layout="responsive"
               width={250}
               height={250}
               style={{ objectFit: "cover" }}
@@ -235,7 +240,7 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
             <Image
               src={`${img.url}`}
               alt={img.title}
-              layout="responsive"
+              // layout="responsive"
               width={250}
               height={250}
               style={{ objectFit: "cover" }}
@@ -415,7 +420,7 @@ export const HomeMasonry = ({
           }
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1250px) {
           .masonry-grid {
             column-count: 2;
           }

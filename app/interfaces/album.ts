@@ -9,6 +9,7 @@ export interface PhotoAlbum {
   type: string;
   images: ImageItem[];
   highlight?: boolean;
+  isPortrait?: boolean;
 }
 
 export interface SlugAlbum {

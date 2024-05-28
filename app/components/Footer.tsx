@@ -1,7 +1,7 @@
 import { GoArrowUp } from "react-icons/go";
-import { PiInstagramLogoLight } from "react-icons/pi";
+import { PiInstagramLogoLight, PiTiktokLogo } from "react-icons/pi";
 const instagramURL = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
-
+const tiktokURL = process.env.NEXT_PUBLIC_TIKTOK_URL;
 const Footer = () => {
   return (
     <footer className="py-8 lg:px-5 mt-10 w-full max-w-screen-2xl">
@@ -19,6 +19,16 @@ const Footer = () => {
           >
             <PiInstagramLogoLight />
           </a>
+          <a
+            href={tiktokURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xl default-hover"
+            aria-label="Tiktok"
+          >
+            <PiTiktokLogo />
+          </a>
+
           <button
             className="text-xl default-hover"
             onClick={() => {
