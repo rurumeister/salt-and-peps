@@ -25,7 +25,7 @@ export default function Home() {
         </title>
         <meta
           name="description"
-          content="Learn about Peps, the creative mind behind SaltandPeps. Specializing in portraits, fashion, food, events, pre-wedding photography, and content creation in Singapore."
+          content="Learn about Peps, the creative mind behind SaltandPeps. Specializing in portraits, fashion, food, pre-wedding photography, and content creation in Singapore."
         />
         <meta
           name="keywords"
@@ -113,14 +113,6 @@ export default function Home() {
                       }}
                     >
                       Food
-                    </span>
-                    ,{" "}
-                    <span
-                      style={{
-                        fontWeight: "600",
-                      }}
-                    >
-                      Events
                     </span>
                     ,{" "}
                     <span
