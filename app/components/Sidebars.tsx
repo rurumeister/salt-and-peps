@@ -3,6 +3,8 @@ import Link from "next/link";
 import { photographyFilter } from "../lists";
 
 type MainSidebarProps = {
+  isFeatureActive: boolean;
+  setIsFeatureActive: (value: boolean) => void;
   isSidebarOpen: boolean;
   setIsPortrait: (value: boolean) => void;
   setTogglePhotography: (value: boolean) => void;
@@ -13,6 +15,8 @@ type MainSidebarProps = {
 };
 
 export const MainSidebar = ({
+  isFeatureActive,
+  setIsFeatureActive,
   isSidebarOpen,
   setIsPortrait,
   setTogglePhotography,
@@ -41,10 +45,13 @@ export const MainSidebar = ({
         <div className="ml-12 lg:ml-16 flex flex-col">
           <button
             className={`default-hover w-40 text-left ${
-              selectedCategory === "PhotographyAll" && "font-bold"
+              selectedCategory === "PhotographyAll" &&
+              !isFeatureActive &&
+              "font-bold"
             }`}
             onClick={() => {
               handleCategoryChange("PhotographyAll");
+              setIsFeatureActive(false);
               toggleSidebar();
               setTogglePhotography(true);
               window.scrollTo(0, 0);
@@ -63,6 +70,7 @@ export const MainSidebar = ({
                   ? setIsPortrait(true)
                   : setIsPortrait(false);
                 handleCategoryChange(category);
+                setIsFeatureActive(false);
                 toggleSidebar();
                 setTogglePhotography(true);
                 window.scrollTo(0, 0);
@@ -94,6 +102,7 @@ export const MainSidebar = ({
                 selectedCategory === category && "font-bold"
               }`}
               onClick={() => {
+                setIsFeatureActive(false);
                 handleCategoryChange(category);
                 toggleSidebar();
                 setTogglePhotography(false);
@@ -104,7 +113,16 @@ export const MainSidebar = ({
             </button>
           ))}
         </div>
+        <div className="flex flex-col pt-8">
+          <button
+            className={`text-left lg:ml-12 ${isFeatureActive && "font-bold"}`}
+            onClick={() => setIsFeatureActive(true)}
+          >
+            Features
+          </button>
+        </div>
       </div>
+
       <div className="lg:ml-12 pb-24 lg:pb-8 flex flex-col">
         <button className="about-button default-hover">
           <Link href="/about">
@@ -178,6 +196,7 @@ export const OnlyAllSidebar = ({
           </button>
         </div>
       </div>
+      <div></div>
       <div>
         <Link href="/">
           <button className="about-button ml-12 default-hover">Back</button>

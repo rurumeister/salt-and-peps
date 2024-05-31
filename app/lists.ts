@@ -5,5 +5,4 @@ export const photographyFilter = [
   "Portraits",
   "Products",
   "Food",
-  "Travel",
 ];
