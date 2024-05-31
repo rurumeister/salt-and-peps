@@ -4,9 +4,10 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import FeatureList from "./components/FeatureList";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
-import { PhotoAlbum, Portrait } from "./interfaces/album";
+import { Feature, PhotoAlbum, Portrait } from "./interfaces/album";
 import { useAllAlbums } from "./lib/useAllAlbums";
 const Footer = dynamic(() => import("./components/Footer"));
 
@@ -22,7 +23,8 @@ export default function Home() {
   const [modellingFilter, setModellingFilter] = useState<string[]>([]);
   const [filteredImages, setFilteredImages] = useState<PhotoAlbum[]>([]);
   const [modellingImages, setModellingImages] = useState<any>();
-
+  const [isFeatureActive, setIsFeatureActive] = useState<boolean>(false);
+  const [featureList, setFeatureList] = useState<Feature[]>([]);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
@@ -39,6 +41,7 @@ export default function Home() {
       const photographyList = allAlbums.photographyLists || [];
       const modellingList = allAlbums.modellingLists || [];
       const portraitList = allAlbums.portraitLists || [];
+      const featureList = allAlbums.featureLists || [];
       const formattedPhotoData: PhotoAlbum[] = photographyList.map(
         (item: any) => ({
           title: item.title,
@@ -69,9 +72,18 @@ export default function Home() {
           image: item.image.url,
         })
       );
+      const formattedFeatureData: Feature[] = featureList.map((item: any) => ({
+        title: item.title,
+        link: item.link,
+        date: item.date,
+        author: item.author,
+        coverPhoto: item.coverPhoto.url,
+      }));
+
       setPhotoAlbums(formattedPhotoData);
       setModellingAlbums(formattedModellingData);
       setPortraitAlbums(formattedPortraitData);
+      setFeatureList(formattedFeatureData);
       setModellingFilter(formattedModellingData.map((album) => album.title));
     }
   }, [allAlbums]);
@@ -84,6 +96,7 @@ export default function Home() {
     photoAlbums,
     modellingAlbums,
     portraitAlbums,
+    featureList,
   ]);
 
   const filterImages = () => {
@@ -153,6 +166,8 @@ export default function Home() {
           />
         </div>
         <MainSidebar
+          isFeatureActive={isFeatureActive}
+          setIsFeatureActive={setIsFeatureActive}
           setIsPortrait={setIsPortrait}
           setTogglePhotography={setTogglePhotography}
           isSidebarOpen={isSidebarOpen}
@@ -161,16 +176,20 @@ export default function Home() {
           handleCategoryChange={handleCategoryChange}
           modellingFilter={modellingFilter}
         />
-        <HomeMasonry
-          isPortrait={isPortrait}
-          albumsLoading={albumsLoading}
-          filteredImages={filteredImages}
-          portraitAlbums={portraitAlbums}
-          modellingImages={modellingImages}
-          togglePhotography={togglePhotography}
-          selectedCategory={selectedCategory}
-          handleCategoryChange={handleCategoryChange}
-        />
+        {isFeatureActive ? (
+          <FeatureList features={featureList} />
+        ) : (
+          <HomeMasonry
+            isPortrait={isPortrait}
+            albumsLoading={albumsLoading}
+            filteredImages={filteredImages}
+            portraitAlbums={portraitAlbums}
+            modellingImages={modellingImages}
+            togglePhotography={togglePhotography}
+            selectedCategory={selectedCategory}
+            handleCategoryChange={handleCategoryChange}
+          />
+        )}
       </div>
       <Footer />
     </main>

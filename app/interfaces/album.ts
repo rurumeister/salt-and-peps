@@ -25,3 +25,11 @@ export interface Portrait {
   title: string;
   image: string;
 }
+
+export interface Feature {
+  title: string;
+  link: string;
+  date: string;
+  coverPhoto: string;
+  author: string;
+}

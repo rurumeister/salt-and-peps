@@ -20,7 +20,16 @@ async function fetchAllAlbums() {
   const graphQLClient = new GraphQLClient(id);
   const query = gql`
     {
-      photographyLists(stage: PUBLISHED) {
+      featureLists(stage: PUBLISHED, orderBy: date_ASC) {
+        title
+        link
+        date
+        author
+        coverPhoto {
+          url
+        }
+      }
+      photographyLists(stage: PUBLISHED, first: 100) {
         id
         images(first: 1) {
           fileName
