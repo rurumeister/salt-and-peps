@@ -29,7 +29,7 @@ async function fetchAllAlbums() {
           url
         }
       }
-      photographyLists(stage: PUBLISHED, first: 100) {
+      photographyLists(stage: PUBLISHED, first: 100, orderBy: priority_ASC) {
         id
         images(first: 1) {
           height
@@ -37,6 +37,7 @@ async function fetchAllAlbums() {
           fileName
           url
         }
+        priority
         title
         type
         highlight

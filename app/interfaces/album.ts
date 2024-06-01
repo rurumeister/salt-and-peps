@@ -11,6 +11,7 @@ export interface PhotoAlbum {
   type: string;
   images: ImageItem[];
   highlight?: boolean;
+  priority?: number;
 }
 
 export interface SlugAlbum {

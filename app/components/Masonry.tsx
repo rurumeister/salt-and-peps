@@ -315,31 +315,47 @@ export const HomeMasonry = ({
     setLoadedImages((prev) => [...prev, index]);
   };
 
+  let reorderedFilteredImages = [];
+  const columnCount =
+    typeof window !== "undefined" && window.innerWidth > 768 ? 3 : 1;
+  const rows = Math.ceil(filteredImages.length / columnCount);
+  // Reorder images to ensure priority order is respected
+  for (let i = 0; i < columnCount; i++) {
+    for (let j = 0; j < rows; j++) {
+      const index = j * columnCount + i;
+      if (index < filteredImages.length) {
+        reorderedFilteredImages.push(filteredImages[index]);
+      }
+    }
+  }
+
   const renderPortrait = () => {
     return (
       <div>
         <h2 className="block lg:hidden">Portraits.</h2>
         <div className="masonry-grid">
-          {portraitAlbums.map((img: any, index) => (
-            <div
-              key={index}
-              className={`relative masonry-item group ${
-                loadedImages.includes(index) ? "opacity-in" : "opacity-out"
-              }`}
-            >
-              <Image
-                src={img.image}
-                alt={img.title}
-                layout="responsive"
-                width={250}
-                height={250}
-                style={{ objectFit: "cover" }}
-                onLoad={() => handleImageLoad(index)}
-                placeholder="blur"
-                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
-              />
-            </div>
-          ))}
+          {portraitAlbums.map((img: any, index) => {
+            return (
+              <div
+                key={index}
+                className={`relative masonry-item group ${
+                  loadedImages.includes(index) ? "opacity-in" : "opacity-out"
+                }`}
+              >
+                <Image
+                  src={img.image}
+                  alt={img.title}
+                  layout="responsive"
+                  width={250}
+                  height={250}
+                  style={{ objectFit: "cover" }}
+                  onLoad={() => handleImageLoad(index)}
+                  placeholder="blur"
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
+                />
+              </div>
+            );
+          })}
         </div>
         <style jsx>{`
           .masonry-grid {
@@ -383,7 +399,7 @@ export const HomeMasonry = ({
       ) : (
         <div className="masonry-grid">
           <PhotographyMasonry
-            filteredImages={filteredImages}
+            filteredImages={reorderedFilteredImages}
             loadedImages={loadedImages}
             handleImageLoad={handleImageLoad}
             togglePhotography={togglePhotography}

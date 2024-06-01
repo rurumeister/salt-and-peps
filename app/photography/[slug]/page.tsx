@@ -24,6 +24,7 @@ export default function Home() {
   const slug = url.split("/").pop();
   const cleanedUrl = url.substring(1);
   const title = slug ? transformSlugToTitle(slug) : "";
+
   const {
     data: albumData,
     isLoading: albumsLoading,

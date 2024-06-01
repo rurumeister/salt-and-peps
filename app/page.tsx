@@ -46,6 +46,7 @@ export default function Home() {
         (item: any) => ({
           title: item.title,
           type: item.type,
+          priority: item?.priority,
           images: item.images.map((image: any) => ({
             url: image.url,
             title: image.fileName,
