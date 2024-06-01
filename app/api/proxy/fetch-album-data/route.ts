@@ -9,6 +9,8 @@ interface output {
     images: {
       fileName: string;
       url: string;
+      height: number;
+      width: number;
     }[];
     title: string;
     type: string;
@@ -25,6 +27,8 @@ async function fetchAlbumData(title: string) {
         images (first:20) {
           fileName
           url
+          height
+          width
         }
         title
         type

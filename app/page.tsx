@@ -50,6 +50,8 @@ export default function Home() {
             url: image.url,
             title: image.fileName,
             description: image.fileName,
+            height: image.height,
+            width: image.width,
           })),
           highlight: item.highlight,
         })
@@ -62,6 +64,8 @@ export default function Home() {
             url: image.url,
             title: image.fileName,
             description: image.fileName,
+            height: image.height,
+            width: image.width,
           })),
           highlight: item.highlight,
         })

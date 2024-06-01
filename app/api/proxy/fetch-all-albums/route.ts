@@ -32,6 +32,8 @@ async function fetchAllAlbums() {
       photographyLists(stage: PUBLISHED, first: 100) {
         id
         images(first: 1) {
+          height
+          width
           fileName
           url
         }
@@ -42,6 +44,8 @@ async function fetchAllAlbums() {
       modellingLists(stage: PUBLISHED) {
         id
         images {
+          height
+          width
           fileName
           url
         }
@@ -51,6 +55,8 @@ async function fetchAllAlbums() {
       }
       portraitLists(stage: PUBLISHED) {
         image {
+          height
+          width
           id
           url
         }

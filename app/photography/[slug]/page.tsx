@@ -38,6 +38,8 @@ export default function Home() {
         images: albumData.images.map((image: any) => ({
           url: image.url,
           title: image.filename,
+          height: image.height,
+          width: image.width,
         })),
       };
       setAlbum(formattedAlbum);

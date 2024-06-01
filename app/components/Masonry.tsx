@@ -38,10 +38,8 @@ const PhotographyMasonry = ({
         <Image
           src={`${firstImage.url}`}
           alt={img.title}
-          layout="responsive"
-          width={250}
-          height={250}
-          style={{ objectFit: "cover" }}
+          width={firstImage.height}
+          height={firstImage.width}
           onLoad={() => handleImageLoad(index)}
           placeholder="blur"
           blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkAAIAAAoAAv/lxKUAAAAASUVORK5CYII="
@@ -147,9 +145,8 @@ export const SlugMasonry = ({
             <Image
               src={`${img.url}`}
               alt={img.title || "Masonry Image"}
-              layout="responsive"
-              width={250}
-              height={250}
+              width={img.width}
+              height={img.height}
               style={{ objectFit: "cover" }}
               onLoad={() => handleImageLoad(index + 1)}
               placeholder="blur"
