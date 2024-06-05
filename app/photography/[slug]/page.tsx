@@ -22,7 +22,6 @@ export default function Home() {
   const searchParams = useSearchParams();
   const url = `${pathname}${searchParams}`;
   const slug = url.split("/").pop();
-  const cleanedUrl = url.substring(1);
   const title = slug ? transformSlugToTitle(slug) : "";
 
   const {

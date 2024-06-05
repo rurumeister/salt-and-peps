@@ -84,7 +84,9 @@ export const MainSidebar = ({
           <p className="text-left lg:ml-12">Modelling</p>
           <button
             className={`default-hover ml-12 lg:ml-16 w-40 text-left ${
-              selectedCategory === "ModellingAll" && "font-bold"
+              selectedCategory === "ModellingAll" &&
+              !isFeatureActive &&
+              "font-bold"
             }`}
             onClick={() => {
               handleCategoryChange("ModellingAll");
@@ -99,7 +101,7 @@ export const MainSidebar = ({
             <button
               key={index}
               className={`default-hover ml-12 lg:ml-16 capitalize text-left ${
-                selectedCategory === category && "font-bold"
+                selectedCategory === category && !isFeatureActive && "font-bold"
               }`}
               onClick={() => {
                 setIsFeatureActive(false);
