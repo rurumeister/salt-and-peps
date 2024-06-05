@@ -59,7 +59,7 @@ export default function Home() {
           />
         </div>
         <OnlyAllSidebar isSidebarOpen={isSidebarOpen} currentPage={pathname} />
-        <section className="pl-5 min-h-screen w-full">
+        <section className="md:pl-5 min-h-screen w-full">
           <div className="flex flex-col gap-5 w-full h-full">
             <div className="relative flex gap-4 h-fit">
               <div className="flex flex-col justify-end pb-4">
@@ -183,7 +183,7 @@ export default function Home() {
                 style={{ width: "300px", height: "auto" }}
               />
             </div>
-            <div className="relative flex gap-2">
+            <div className="justify-center md:justify-normal relative flex gap-2">
               <Image
                 src={image3}
                 alt="Picture of Peps"
@@ -198,7 +198,7 @@ export default function Home() {
                 width={400}
                 height={150}
                 priority
-                className="object-contain w-[300px] lg:w-[250px] xl:w-[350px]"
+                className="hidden md:block object-contain w-[300px] lg:w-[250px] xl:w-[350px]"
                 style={{ height: "auto" }}
               />
               <div

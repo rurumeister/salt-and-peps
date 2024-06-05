@@ -221,7 +221,7 @@ export const ModellingMasonry = ({ album }: { album: PhotoAlbum }) => {
           <p className="font-bold text-white">{album?.title}</p>
         </div>
       </div>
-      <div className="masonry masonry-grid">
+      <div className="pt-2 masonry masonry-grid">
         {album?.images.slice(1).map((img, index) => (
           <div
             key={index + 1}
@@ -305,6 +305,7 @@ export const HomeMasonry = ({
   handleCategoryChange: (category: string) => void;
   albumsLoading: boolean;
 }) => {
+  console.log("filteredImages", filteredImages);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
 
   useEffect(() => {
@@ -319,6 +320,7 @@ export const HomeMasonry = ({
   const columnCount =
     typeof window !== "undefined" && window.innerWidth > 768 ? 3 : 1;
   const rows = Math.ceil(filteredImages.length / columnCount);
+  console.log("rows", rows);
   // Reorder images to ensure priority order is respected
   for (let i = 0; i < columnCount; i++) {
     for (let j = 0; j < rows; j++) {

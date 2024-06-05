@@ -117,8 +117,13 @@ export const MainSidebar = ({
         </div>
         <div className="flex flex-col pt-8">
           <button
-            className={`text-left lg:ml-12 ${isFeatureActive && "font-bold"}`}
-            onClick={() => setIsFeatureActive(true)}
+            className={`default-hover text-left lg:ml-12 ${
+              isFeatureActive && "font-bold"
+            }`}
+            onClick={() => {
+              setIsFeatureActive(true);
+              window.scrollTo(0, 0);
+            }}
           >
             Features
           </button>
@@ -164,10 +169,10 @@ export const OnlyAllSidebar = ({
           priority
           className="hidden lg:block"
         />
-        <h2 className="opacity-20 cursor-not-allowed lg:ml-12">Photography</h2>
+        <h2 className="opacity-10 cursor-not-allowed lg:ml-12">Photography</h2>
         <div className="ml-12 lg:ml-16 flex flex-col">
           <button
-            className={`default-hover w-40 text-left opacity-20 cursor-not-allowed`}
+            className={`default-hover w-40 text-left opacity-10 cursor-not-allowed`}
           >
             All
           </button>
@@ -176,7 +181,7 @@ export const OnlyAllSidebar = ({
               key={category}
               className={`w-40 ${
                 category != "All"
-                  ? "opacity-20 cursor-not-allowed"
+                  ? "opacity-10 cursor-not-allowed"
                   : "default-hover"
               }`}
               onClick={() => {
@@ -189,7 +194,7 @@ export const OnlyAllSidebar = ({
             </p>
           ))}
         </div>
-        <div className="flex flex-col pt-8 opacity-20">
+        <div className="flex flex-col pt-8 opacity-10">
           <button className="text-left lg:ml-12 cursor-not-allowed">
             Modelling
           </button>
@@ -198,10 +203,12 @@ export const OnlyAllSidebar = ({
           </button>
         </div>
       </div>
-      <div></div>
+      <div>
+        <h2 className="opacity-10 cursor-not-allowed lg:ml-12">Features</h2>
+      </div>
       <div>
         <Link href="/">
-          <button className="about-button ml-12 default-hover">Back</button>
+          <button className="about-button lg:ml-12 default-hover">Back</button>
         </Link>
       </div>
       <div className="lg:ml-12 pb-24 lg:pb-8 flex flex-col">
