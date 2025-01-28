@@ -1,19 +1,5 @@
-// pages/api/proxy/fetchAlbumData.ts
-
 import { GraphQLClient, gql } from "graphql-request";
 import { NextRequest, NextResponse } from "next/server";
-
-interface output {
-  photographyLists?: {
-    id: string;
-    images: {
-      fileName: string;
-      url: string;
-    }[];
-    title: string;
-    type: string;
-  }[];
-}
 
 async function fetchAllAlbums() {
   const id = process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT as string;
