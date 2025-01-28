@@ -4,12 +4,12 @@ const instagramURL = process.env.NEXT_PUBLIC_INSTAGRAM_URL;
 const tiktokURL = process.env.NEXT_PUBLIC_TIKTOK_URL;
 const Footer = () => {
   return (
-    <footer className="py-8 lg:px-5 mt-10 w-full max-w-screen-2xl">
+    <footer className="py-8 lg:px-5 w-full max-w-screen-2xl">
       <div className="flex justify-between items-center">
         <p className="spectral text-xs lg:ml-12 italic">
           all content copyright © 2024 saltandpeps
         </p>
-        <div className="flex gap-5">
+        <div className="flex gap-5 mr-11">
           <a
             href={instagramURL}
             target="_blank"

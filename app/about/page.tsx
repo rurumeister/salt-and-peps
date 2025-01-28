@@ -9,8 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 import { OnlyAllSidebar } from "../components/Sidebars";
-
 const Footer = dynamic(() => import("../components/Footer"));
 
 export default function Home() {
@@ -34,6 +34,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href="https://www.saltandpeps.com/about" />
       </Head>
+
       <div
         className={`sidebar-container max-w-screen-2xl ${
           isSidebarOpen ? "open" : "closed"
@@ -60,6 +61,13 @@ export default function Home() {
         </div>
         <OnlyAllSidebar isSidebarOpen={isSidebarOpen} currentPage={pathname} />
         <section className="md:pl-5 min-h-screen w-full">
+          <FloatingWhatsApp
+            phoneNumber={process.env.NEXT_PUBLIC_PHONE_NUMBER as string}
+            accountName="Peps"
+            avatar="./peps.png"
+            darkMode={true}
+            allowEsc={true}
+          />
           <div className="flex flex-col gap-5 w-full h-full">
             <div className="relative flex gap-4 h-fit">
               <div className="flex flex-col justify-end pb-4">
@@ -85,7 +93,7 @@ export default function Home() {
                     className="inconsolata border-b border-gray-900/10 pb-4"
                     style={{
                       fontFamily: "__Inconsolata_f98d14",
-                      fontWeight: "300",
+                      fontWeight: "100",
                       fontSize: "16px",
                     }}
                   >

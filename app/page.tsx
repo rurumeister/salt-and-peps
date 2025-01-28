@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { FloatingWhatsApp } from "react-floating-whatsapp";
 import FeatureList from "./components/FeatureList";
 import { HomeMasonry } from "./components/Masonry";
 import { MainSidebar } from "./components/Sidebars";
@@ -146,6 +147,13 @@ export default function Home() {
         <link rel="canonical" href="https://www.saltandpeps.com" />
       </Head>
 
+      <FloatingWhatsApp
+        phoneNumber={process.env.NEXT_PUBLIC_PHONE_NUMBER as string}
+        accountName="Peps"
+        avatar="./peps.png"
+        darkMode={true}
+        allowEsc={true}
+      />
       <div
         className={`sidebar-container max-w-screen-2xl ${
           isSidebarOpen ? "open" : "closed"

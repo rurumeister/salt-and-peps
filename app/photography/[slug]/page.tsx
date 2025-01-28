@@ -11,7 +11,6 @@ import Image from "next/image";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { TailSpin } from "react-loader-spinner";
-
 const Footer = dynamic(() => import("@/app/components/Footer"));
 
 export default function Home() {
